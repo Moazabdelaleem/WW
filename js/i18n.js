@@ -63,9 +63,11 @@ const translations = {
     'detail.notes': 'Notes (optional)',
     'detail.notesPlaceholder': 'Delivery address, timing, anything else...',
     'detail.disclaimer': "Submit a web order request for a call-back, or order directly via WhatsApp.",
-    'detail.requestBtn': 'Submit Web Request',
-    'detail.whatsappBtn': 'Order via WhatsApp (Demo)',
-    'detail.successMsg': "Request received — we'll call you shortly to confirm.",
+    'detail.requestBtn': 'Submit Order Request — We\'ll Call You',
+    'detail.requestHint': 'We\'ll call to confirm specifications & delivery date',
+    'detail.whatsappBtn': 'Order via WhatsApp — Fastest Response',
+    'detail.whatsappHint': 'Pre-fills item specs directly into WhatsApp chat',
+    'detail.successMsg': "✓ Request received — we'll call you shortly to confirm your order details.",
 
     // ── Proposal Pitch Banner
     'proposal.badge': '✨ Live Pitch Demo',
@@ -225,9 +227,11 @@ const translations = {
     'detail.notes': 'ملاحظات وتفاصيل إضافية (اختياري)',
     'detail.notesPlaceholder': 'العنوان أو المحافظة، وأي مواصفات خاصة تحب نراعيها...',
     'detail.disclaimer': 'ابعت طلب تسعير عبر الموقع وهنتصل بك، أو اطلب مباشرة عبر واتساب.',
-    'detail.requestBtn': 'إرسال طلب عبر الموقع',
-    'detail.whatsappBtn': 'الطلب عبر واتساب (تجريبي)',
-    'detail.successMsg': 'تم استلام طلبك — وهنتصل بك فوراً للتأكيد والميعاد.',
+    'detail.requestBtn': 'طلب شراء عبر الموقع — وسنقوم بالاتصال بك',
+    'detail.requestHint': 'سنقوم بالاتصال بك فوراً لتأكيد التفاصيل والمقاسات وموعد التسليم',
+    'detail.whatsappBtn': 'الطلب المباشر عبر واتساب — الرد الأسرع',
+    'detail.whatsappHint': 'يتم إرسال مواصفات المنتج والمقاسات تلقائياً في المحادثة',
+    'detail.successMsg': '✓ تم استلام طلبك بنجاح! وسنقوم بالاتصال بك فوراً للتأكيد والميعاد.',
 
     // ── Proposal Pitch Banner
     'proposal.badge': '✨ عرض تقديمي مباشر',

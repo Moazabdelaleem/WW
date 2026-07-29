@@ -295,7 +295,7 @@ function handleWhatsAppOrder() {
     ? 'Price on Request'
     : `$${calculateTotalPrice().toLocaleString()}`;
 
-  let message = `Hello ArtisanWood! 👋 (Demo Order)\nI would like to order:\n\n` +
+  let message = `Hello ArtisanWood! 👋\nI would like to order:\n\n` +
     `📌 *Product:* ${currentProduct.name}\n` +
     `🔢 *Quantity:* ${quantity}\n` +
     `💰 *Estimated Total:* ${priceText}\n`;
@@ -310,7 +310,7 @@ function handleWhatsAppOrder() {
 
   const encodedMsg = encodeURIComponent(message);
   window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
-  showToast('Opening WhatsApp (Demo) with pre-filled details!', 'success');
+  showToast('Opening WhatsApp with pre-filled order details!', 'success');
 }
 
 // --- Loader Helper ---
@@ -478,6 +478,8 @@ function openProductModal(product) {
   orderRequestBtn.style.display = 'block';
   orderRequestBtn.disabled = false;
   orderRequestBtn.textContent = t('detail.requestBtn');
+  const actionsGrid = document.getElementById('order-actions-grid');
+  if (actionsGrid) actionsGrid.style.display = 'grid';
 
   // Drawer breadcrumb
   const drawerBreadcrumb = document.getElementById('drawer-breadcrumb');
@@ -486,13 +488,6 @@ function openProductModal(product) {
     const prodName = escapeHTML(tr(product.name));
     drawerBreadcrumb.innerHTML = `<a href="#catalog-section">Catalog</a> <span class="breadcrumb-separator">›</span> <span>${catName}</span> <span class="breadcrumb-separator">›</span> <strong style="color:var(--primary-900);">${prodName}</strong>`;
   }
-  orderCustomerPhone.value = '';
-  orderCustomerNotes.value = '';
-  orderFormFields.style.display = 'block';
-  orderSuccessMsg.style.display = 'none';
-  orderRequestBtn.style.display = 'block';
-  orderRequestBtn.disabled = false;
-  orderRequestBtn.textContent = t('detail.requestBtn');
 
   // Fill content fields
   detailCategory.textContent = tr(product.categories?.name || t('common.uncategorized'));
@@ -922,10 +917,13 @@ async function handleOrderRequestSubmit() {
 
     if (itemError) throw itemError;
 
-    // Success state
+    // Success state — prominent confirmation moment
     orderFormFields.style.display = 'none';
-    orderRequestBtn.style.display = 'none';
+    const actionsGrid = document.getElementById('order-actions-grid');
+    if (actionsGrid) actionsGrid.style.display = 'none';
     orderSuccessMsg.style.display = 'block';
+    orderSuccessMsg.textContent = t('detail.successMsg');
+    showToast(t('detail.successMsg'), 'success');
 
   } catch (error) {
     console.error('Failed to submit order request:', error.message);
