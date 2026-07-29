@@ -223,20 +223,30 @@ button, input, select, textarea {
 }
 
 .option-value-btn {
-  display: inline-block;
-  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
   margin: 0 8px 8px 0;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
+  font-weight: 500;
+  color: var(--primary-900);
+  background: #ffffff;
   cursor: pointer;
-  background: #fff;
   transition: all 0.15s ease;
 }
 
+.option-value-btn:hover {
+  border-color: var(--accent-500);
+  background-color: var(--primary-100);
+}
+
 .option-value-btn.selected {
-  border-color: var(--primary-600, var(--accent-700));
-  background: var(--primary-100, var(--accent-100));
+  border-color: var(--accent-600);
+  background: var(--accent-100);
+  color: var(--accent-700);
   font-weight: 600;
 }
 

@@ -292,7 +292,7 @@ export function ProductDrawerModal() {
                               }));
                             }}
                           >
-                            {tr(val.name)}
+                            {tr(val.name || '') || val.name || val.label || 'Option'}
                           </button>
                         );
                       })}
