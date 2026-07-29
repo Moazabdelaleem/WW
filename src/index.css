@@ -2819,6 +2819,130 @@ button, input, select, textarea, .category-pill, .option-value-btn {
   margin-top: 4px;
 }
 
+/* --- Category Pill Bar --- */
+.category-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-800);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.category-pill:hover {
+  background-color: var(--primary-100);
+  border-color: var(--primary-200);
+}
+
+.category-pill.active {
+  background-color: var(--primary-900);
+  color: var(--text-light);
+  border-color: var(--primary-900);
+}
+
+.pill-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.category-pill.active .pill-count {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Catalog Toolbar --- */
+.catalog-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  background: var(--bg-card);
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.toolbar-search {
+  flex: 1;
+  min-width: 260px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.toolbar-search .input-text {
+  padding-left: 42px;
+}
+
+.toolbar-filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* --- Department Selector --- */
+.department-bar {
+  margin-bottom: 8px;
+}
+
+.department-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.select-department {
+  font-size: 15px;
+  font-weight: 600;
+  background-color: var(--bg-main);
+  border-color: var(--border-color);
+  max-width: 340px;
+}
+
+/* --- Products Grid Container --- */
+.catalog-section {
+  padding: 40px 0 80px;
+  background-color: var(--bg-main);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
 /* --- Featured Card Visual Weighting --- */
 .product-card.is-featured {
   border: 2px solid var(--accent-500);
