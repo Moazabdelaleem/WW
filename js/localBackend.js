@@ -93,7 +93,7 @@ const TABLE_DEFAULTS = {
 
 // --- Seed data (only used the very first time, when localStorage is empty) ---
 
-function seedDB() {
+export function seedDB() {
   const catLiving = uuid();
   const catDining = uuid();
   const catBedroom = uuid();
@@ -131,17 +131,17 @@ function seedDB() {
   const p11 = uuid();
 
   const products = [
-    { id: p1, name: 'Oakhurst Dining Table', category_id: catDining, price: 1250, price_type: 'fixed', description: 'Solid oak dining table, hand-finished, seats six comfortably.', is_available: true, created_at: nowIso() },
-    { id: p2, name: 'Wraith Lounge Sofa', category_id: catLiving, price: 1800, price_type: 'range', description: 'Three-seater sofa with a solid pine frame. Choose your own fabric.', is_available: true, created_at: nowIso() },
-    { id: p3, name: 'Solene Platform Bed', category_id: catBedroom, price: 950, price_type: 'fixed', description: 'Low-profile platform bed frame in walnut veneer, queen size.', is_available: false, created_at: nowIso() },
-    { id: p4, name: 'Custom Teak Bench', category_id: catOutdoor, price: null, price_type: 'on_request', description: 'Weather-treated teak bench, built to your dimensions.', is_available: true, created_at: nowIso() },
-    { id: p5, name: 'Aria Accent Chair', category_id: catLiving, price: 620, price_type: 'fixed', description: 'Compact accent chair with brass legs and a curved backrest.', is_available: true, created_at: nowIso() },
-    { id: p6, name: 'Solid Oak Entrance Door', category_id: catDoors, price: 1850, price_type: 'fixed', description: 'Handcrafted solid oak door with brass ironmongery and weather sealing.', is_available: true, created_at: nowIso() },
-    { id: p7, name: 'Walnut Acoustic Wall Panels', category_id: catWall, price: 240, price_type: 'range', description: 'Natural walnut wood slat acoustic panels for luxury interior accent walls.', is_available: true, created_at: nowIso() },
+    { id: p1, name: 'Oakhurst Dining Table', category_id: catDining, price: 1250, price_type: 'fixed', description: 'Solid oak dining table, hand-finished, seats six comfortably.', is_available: true, is_featured: false, created_at: nowIso() },
+    { id: p2, name: 'Wraith Lounge Sofa', category_id: catLiving, price: 1800, price_type: 'range', description: 'Three-seater sofa with a solid pine frame. Choose your own fabric.', is_available: true, is_featured: true, created_at: nowIso() },
+    { id: p3, name: 'Solene Platform Bed', category_id: catBedroom, price: 950, price_type: 'fixed', description: 'Low-profile platform bed frame in walnut veneer, queen size.', is_available: false, is_featured: false, created_at: nowIso() },
+    { id: p4, name: 'Custom Teak Bench', category_id: catOutdoor, price: null, price_type: 'on_request', description: 'Weather-treated teak bench, built to your dimensions.', is_available: true, is_featured: false, created_at: nowIso() },
+    { id: p5, name: 'Aria Accent Chair', category_id: catLiving, price: 620, price_type: 'fixed', description: 'Compact accent chair with brass legs and a curved backrest.', is_available: true, is_featured: false, created_at: nowIso() },
+    { id: p6, name: 'Solid Oak Entrance Door', category_id: catDoors, price: 1850, price_type: 'fixed', description: 'Handcrafted solid oak door with brass ironmongery and weather sealing.', is_available: true, is_featured: true, created_at: nowIso() },
+    { id: p7, name: 'Walnut Acoustic Wall Panels', category_id: catWall, price: 240, price_type: 'range', description: 'Natural walnut wood slat acoustic panels for luxury interior accent walls.', is_available: true, is_featured: false, created_at: nowIso() },
     { id: p8, name: 'Fitted Master Wardrobe', category_id: catWardrobes, price: null, price_type: 'on_request', description: 'Floor-to-ceiling built-in wardrobe with soft-close drawers and LED strip channels.', is_available: true, created_at: nowIso() },
-    { id: p9, name: 'Executive Mahogany Desk', category_id: catDesks, price: 2100, price_type: 'fixed', description: 'Spacious executive desk with integrated cable management and leather inlay.', is_available: true, created_at: nowIso() },
-    { id: p10, name: 'Ergonomic Mesh Manager Chair', category_id: catSeating, price: 580, price_type: 'fixed', description: 'Full lumbar support with aluminum base and breathable mesh back.', is_available: true, created_at: nowIso() },
-    { id: p11, name: '10-Person Conference Table', category_id: catConference, price: 3400, price_type: 'range', description: 'Solid teak top conference table with built-in power hubs.', is_available: true, created_at: nowIso() },
+    { id: p9, name: 'Executive Mahogany Desk', category_id: catDesks, price: 2100, price_type: 'fixed', description: 'Spacious executive desk with integrated cable management and leather inlay.', is_available: true, is_featured: true, created_at: nowIso() },
+    { id: p10, name: 'Ergonomic Mesh Manager Chair', category_id: catSeating, price: 580, price_type: 'fixed', description: 'Full lumbar support with aluminum base and breathable mesh back.', is_available: true, is_featured: false, created_at: nowIso() },
+    { id: p11, name: '10-Person Conference Table', category_id: catConference, price: 3400, price_type: 'range', description: 'Solid teak top conference table with built-in power hubs.', is_available: true, is_featured: false, created_at: nowIso() },
   ];
 
   const product_images = [

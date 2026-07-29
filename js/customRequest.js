@@ -5,6 +5,7 @@
 // placeholder for this demo: it is not persisted anywhere.
 
 import { getSupabaseClient, isUsingLocalMode } from './supabaseClient.js';
+import { tr } from './i18n.js';
 
 let selectedCategory = '';
 let selectedMaterials = [];
@@ -35,6 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (whatsappBtn) {
     whatsappBtn.addEventListener('click', handleCustomWhatsApp);
   }
+
+  document.addEventListener('langchange', () => {
+    loadCategories();
+  });
 });
 
 // --- Load real catalog categories so the "starting point" chips match the store ---
@@ -46,11 +51,17 @@ async function loadCategories() {
     const { data, error } = await supabase.from('categories').select('*').order('name', { ascending: true });
     if (error) throw error;
 
+    categoryList.innerHTML = `
+      <li class="category-filter-item active" data-category="">
+        <span data-i18n="custom.noCategory">${tr('No particular category')}</span>
+      </li>
+    `;
+
     (data || []).forEach(cat => {
       const li = document.createElement('li');
       li.className = 'category-filter-item';
       li.dataset.category = cat.name;
-      li.innerHTML = `<span>${escapeHTML(cat.name)}</span>`;
+      li.innerHTML = `<span>${escapeHTML(tr(cat.name))}</span>`;
       categoryList.appendChild(li);
     });
 

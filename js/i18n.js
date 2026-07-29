@@ -62,9 +62,9 @@ const translations = {
     'detail.phonePlaceholder': '01xxxxxxxxx',
     'detail.notes': 'Notes (optional)',
     'detail.notesPlaceholder': 'Delivery address, timing, anything else...',
-    'detail.disclaimer': "Order directly via WhatsApp or send a web request.",
-    'detail.requestBtn': 'Request this order',
-    'detail.whatsappBtn': 'Order via WhatsApp',
+    'detail.disclaimer': "Submit a web order request for a call-back, or order directly via WhatsApp.",
+    'detail.requestBtn': 'Submit Web Request',
+    'detail.whatsappBtn': 'Order via WhatsApp (Demo)',
     'detail.successMsg': "Request received — we'll call you shortly to confirm.",
 
     // ── Proposal Pitch Banner
@@ -224,9 +224,9 @@ const translations = {
     'detail.phonePlaceholder': '01xxxxxxxxx',
     'detail.notes': 'ملاحظات وتفاصيل إضافية (اختياري)',
     'detail.notesPlaceholder': 'العنوان أو المحافظة، وأي مواصفات خاصة تحب نراعيها...',
-    'detail.disclaimer': 'اطلب مباشرة ع الواتساب أو ابعت طلبك من الموقع.',
-    'detail.requestBtn': 'احجز الموديل ده',
-    'detail.whatsappBtn': 'اطلب ع الواتساب على طول',
+    'detail.disclaimer': 'ابعت طلب تسعير عبر الموقع وهنتصل بك، أو اطلب مباشرة عبر واتساب.',
+    'detail.requestBtn': 'إرسال طلب عبر الموقع',
+    'detail.whatsappBtn': 'الطلب عبر واتساب (تجريبي)',
     'detail.successMsg': 'تم استلام طلبك — وهنتصل بك فوراً للتأكيد والميعاد.',
 
     // ── Proposal Pitch Banner
@@ -341,7 +341,7 @@ const translations = {
 // ─────────────────────────────────────────────
 //  State
 // ─────────────────────────────────────────────
-let currentLang = localStorage.getItem(STORAGE_KEY) || 'en';
+let currentLang = localStorage.getItem(STORAGE_KEY) || 'ar';
 
 export function getCurrentLang() { return currentLang; }
 

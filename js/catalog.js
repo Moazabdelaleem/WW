@@ -2,8 +2,9 @@
 // Logic for the public catalog page.
 
 import { getSupabaseClient, isSupabaseConfigured, isUsingLocalMode, saveSupabaseConfig } from './supabaseClient.js';
-import { switchDemoPreset } from './localBackend.js';
+import { switchDemoPreset, seedDB } from './localBackend.js';
 import { t, tr } from './i18n.js';
+
 // --- State Variables ---
 let products = [];
 let categories = [];
@@ -60,12 +61,6 @@ const orderRequestBtn = document.getElementById('order-request-btn');
 const whatsappOrderBtn = document.getElementById('whatsapp-order-btn');
 const orderSuccessMsg = document.getElementById('order-success-msg');
 
-// Setup Config Modal Elements
-const supabaseConfigModal = document.getElementById('supabase-config-modal');
-const configSetupForm = document.getElementById('config-setup-form');
-const configUrlInput = document.getElementById('config-url');
-const configAnonKeyInput = document.getElementById('config-anon-key');
-
 // Proposal Pitch Banner Elements
 const demoPresetSelect = document.getElementById('demo-preset-select');
 
@@ -121,17 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
 });
 
-// --- Config Modal logic ---
-function showConfigModal() {
-  supabaseConfigModal.classList.add('active');
-  configSetupForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const url = configUrlInput.value;
-    const key = configAnonKeyInput.value;
-    saveSupabaseConfig(url, key);
-  });
-}
-
 // --- Fetch Data & Load Catalog ---
 async function initializeCatalog() {
   const supabase = getSupabaseClient();
@@ -150,7 +134,6 @@ async function initializeCatalog() {
     categories = categoriesData || [];
 
     // 2. Fetch products including images (joined product_images table)
-    // Only fetch available products or all products (we filter availability client-side)
     const { data: productsData, error: prodError } = await supabase
       .from('products')
       .select(`
@@ -163,6 +146,20 @@ async function initializeCatalog() {
     if (prodError) throw prodError;
     products = productsData || [];
 
+    // Empty state recovery: if 0 products loaded in local demo mode, auto-seed
+    if (products.length === 0 && isUsingLocalMode()) {
+      console.log('No products found, auto-seeding demo data...');
+      seedDB();
+      const { data: retryProducts } = await supabase
+        .from('products')
+        .select(`*, categories(name), product_images(url, sort_order)`)
+        .order('created_at', { ascending: false });
+
+      const { data: retryCategories } = await supabase.from('categories').select('*').order('name', { ascending: true });
+      categories = retryCategories || [];
+      products = retryProducts || [];
+    }
+
     // Process product images sorting
     products.forEach(p => {
       if (p.product_images && p.product_images.length > 0) {
@@ -171,14 +168,46 @@ async function initializeCatalog() {
     });
 
     // 3. Render
+    updateBreadcrumbs();
     renderCategories();
     renderProducts();
 
   } catch (error) {
     console.error("Error loading catalog:", error.message);
-    showToast("Could not load data from Supabase.", "warning");
+    showToast("Could not load data from database.", "warning");
   } finally {
     showLoader(false);
+  }
+}
+
+// --- Dynamic Journey Breadcrumb Helper ---
+function updateBreadcrumbs() {
+  const deptLabel = document.getElementById('breadcrumb-dept');
+  const subSep = document.getElementById('breadcrumb-sub-sep');
+  const subLabel = document.getElementById('breadcrumb-sub');
+  if (!deptLabel) return;
+
+  const deptNames = {
+    all: 'All Categories',
+    home: 'Home Furniture & Living',
+    carpentry: 'Bespoke Carpentry & Doors',
+    office: 'Executive Office'
+  };
+
+  deptLabel.textContent = tr(deptNames[activeDepartment] || 'All Categories');
+
+  if (activeCategory !== 'all') {
+    const catObj = categories.find(c => c.id === activeCategory);
+    if (catObj && subSep && subLabel) {
+      subSep.style.display = 'inline';
+      subLabel.style.display = 'inline';
+      subLabel.textContent = tr(catObj.name);
+    }
+  } else {
+    if (subSep && subLabel) {
+      subSep.style.display = 'none';
+      subLabel.style.display = 'none';
+    }
   }
 }
 
@@ -190,6 +219,7 @@ function setupEventListeners() {
     departmentSelect.addEventListener('change', (e) => {
       activeDepartment = e.target.value;
       activeCategory = 'all'; // reset sub-category pill selection
+      updateBreadcrumbs();
       renderCategories();
       renderProducts();
     });
@@ -265,7 +295,7 @@ function handleWhatsAppOrder() {
     ? 'Price on Request'
     : `$${calculateTotalPrice().toLocaleString()}`;
 
-  let message = `Hello ArtisanWood! 👋\nI would like to order:\n\n` +
+  let message = `Hello ArtisanWood! 👋 (Demo Order)\nI would like to order:\n\n` +
     `📌 *Product:* ${currentProduct.name}\n` +
     `🔢 *Quantity:* ${quantity}\n` +
     `💰 *Estimated Total:* ${priceText}\n`;
@@ -280,7 +310,7 @@ function handleWhatsAppOrder() {
 
   const encodedMsg = encodeURIComponent(message);
   window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
-  showToast('Opening WhatsApp with your pre-filled order!', 'success');
+  showToast('Opening WhatsApp (Demo) with pre-filled details!', 'success');
 }
 
 // --- Loader Helper ---
@@ -329,6 +359,7 @@ function renderCategories() {
       categoryBar.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
       activeCategory = pill.dataset.category;
+      updateBreadcrumbs();
       renderProducts();
     });
   });
@@ -337,6 +368,7 @@ function renderCategories() {
 // --- Render Products Grid (portrait cards) ---
 function renderProducts() {
   productsGrid.innerHTML = '';
+  updateBreadcrumbs();
 
   // Apply filters
   const filteredProducts = products.filter(product => {
@@ -359,21 +391,39 @@ function renderProducts() {
   productsCountLabel.textContent = t('products.showingCount', { n: filteredProducts.length });
 
   if (filteredProducts.length === 0) {
-    productsGrid.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">🛋️</div>
-        <h3 class="empty-state-title">No pieces found</h3>
-        <p class="empty-state-desc">Try adjusting your filters or search terms.</p>
-        <button class="btn btn-secondary" onclick="resetFilters()" style="margin-top:16px;">Reset filters</button>
-      </div>
-    `;
+    if (products.length === 0) {
+      productsGrid.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">🛋️</div>
+          <h3 class="empty-state-title">No products in catalog</h3>
+          <p class="empty-state-desc">The catalog is currently empty or database is unseeded.</p>
+          <button class="btn btn-accent btn-seed-demo" id="load-demo-btn" style="margin-top:16px;">Load Demo Products</button>
+        </div>
+      `;
+      setTimeout(() => {
+        document.getElementById('load-demo-btn')?.addEventListener('click', async () => {
+          seedDB();
+          showToast('Loaded demo products!', 'success');
+          await initializeCatalog();
+        });
+      }, 0);
+    } else {
+      productsGrid.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">🛋️</div>
+          <h3 class="empty-state-title">No pieces found</h3>
+          <p class="empty-state-desc">Try adjusting your filters or search terms.</p>
+          <button class="btn btn-secondary" onclick="resetFilters()" style="margin-top:16px;">Reset filters</button>
+        </div>
+      `;
+    }
     return;
   }
 
   // Render portrait cards
   filteredProducts.forEach((product, index) => {
     const card = document.createElement('div');
-    card.className = 'product-card reveal-card';
+    card.className = `product-card reveal-card${product.is_featured ? ' is-featured' : ''}`;
     card.style.setProperty('--reveal-delay', `${Math.min(index * 55, 400)}ms`);
 
     const imgs = product.product_images || [];
@@ -387,6 +437,7 @@ function renderProducts() {
 
     card.innerHTML = `
       <div class="product-card-img-wrapper">
+        ${product.is_featured ? `<span class="product-card-featured-tag">★ Featured</span>` : ''}
         <img class="product-card-img product-card-img-primary" src="${primaryImg}" alt="${productName}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImg}';">
         ${secondaryImg ? `<img class="product-card-img product-card-img-secondary" src="${secondaryImg}" alt="${productName}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImg}';">` : ''}
         <div class="product-card-overlay">
@@ -420,6 +471,21 @@ function openProductModal(product) {
   // Reset order form state
   orderQuantity.value = 1;
   orderCustomerName.value = '';
+  orderCustomerPhone.value = '';
+  orderCustomerNotes.value = '';
+  orderFormFields.style.display = 'block';
+  orderSuccessMsg.style.display = 'none';
+  orderRequestBtn.style.display = 'block';
+  orderRequestBtn.disabled = false;
+  orderRequestBtn.textContent = t('detail.requestBtn');
+
+  // Drawer breadcrumb
+  const drawerBreadcrumb = document.getElementById('drawer-breadcrumb');
+  if (drawerBreadcrumb) {
+    const catName = escapeHTML(tr(product.categories?.name || 'Furniture'));
+    const prodName = escapeHTML(tr(product.name));
+    drawerBreadcrumb.innerHTML = `<a href="#catalog-section">Catalog</a> <span class="breadcrumb-separator">›</span> <span>${catName}</span> <span class="breadcrumb-separator">›</span> <strong style="color:var(--primary-900);">${prodName}</strong>`;
+  }
   orderCustomerPhone.value = '';
   orderCustomerNotes.value = '';
   orderFormFields.style.display = 'block';

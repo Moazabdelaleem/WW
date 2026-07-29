@@ -2602,10 +2602,10 @@ button, input, select, textarea, .category-pill, .option-value-btn {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   padding: 12px 18px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   flex-wrap: wrap;
 }
@@ -2622,7 +2622,7 @@ button, input, select, textarea, .category-pill, .option-value-btn {
   font-weight: 600;
   padding: 8px 16px;
   border-radius: 10px;
-  border: 1px solid #cbd5e1;
+  border: 1.5px solid var(--accent-500);
   background-color: #ffffff;
   color: #0f172a;
   cursor: pointer;
@@ -2634,9 +2634,9 @@ button, input, select, textarea, .category-pill, .option-value-btn {
 }
 
 .select-department:focus {
-  border-color: #3b82f6;
+  border-color: var(--accent-700);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(181, 147, 90, 0.2);
 }
 
 @media (max-width: 640px) {
@@ -2645,5 +2645,331 @@ button, input, select, textarea, .category-pill, .option-value-btn {
     width: 100%;
   }
 }
+
+/* --- Hero CTA Hierarchy --- */
+.hero-cta-group {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.btn-hero-dominant {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px -4px rgba(45, 45, 42, 0.35);
+  letter-spacing: -0.01em;
+}
+
+.btn-hero-dominant:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(45, 45, 42, 0.45);
+}
+
+.btn-outline-hero {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--primary-900);
+  border: 1.5px solid var(--primary-800);
+  border-radius: var(--radius-md);
+  opacity: 0.9;
+}
+
+.btn-outline-hero:hover {
+  background-color: var(--primary-100);
+  border-color: var(--primary-900);
+  opacity: 1;
+}
+
+/* --- Early Surface Trust Bar --- */
+.hero-trust-bar {
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-trust-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.hero-trust-item:hover {
+  background-color: var(--bg-main);
+}
+
+.hero-trust-item .trust-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--accent-100);
+  color: var(--accent-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-trust-item .trust-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-900);
+  line-height: 1.2;
+}
+
+.hero-trust-item .trust-subtitle {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* --- Dynamic Journey Breadcrumbs --- */
+.catalog-breadcrumb, .drawer-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.catalog-breadcrumb a, .drawer-breadcrumb a {
+  color: var(--accent-700);
+  font-weight: 500;
+}
+
+.catalog-breadcrumb a:hover, .drawer-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: var(--primary-200);
+  font-size: 14px;
+}
+
+.breadcrumb-item.active {
+  color: var(--primary-900);
+  font-weight: 600;
+}
+
+/* --- Department & Category Filter Redesign --- */
+.filter-controls-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-step-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-700);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.subcategory-bar-wrapper {
+  margin-top: 4px;
+}
+
+/* --- Featured Card Visual Weighting --- */
+.product-card.is-featured {
+  border: 2px solid var(--accent-500);
+  box-shadow: 0 8px 24px -6px rgba(181, 147, 90, 0.28);
+}
+
+.product-card-featured-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, var(--accent-600), var(--accent-700));
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --- Modal Action Button Hints --- */
+.order-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.action-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-btn-wrapper .btn,
+.action-btn-wrapper .btn-whatsapp {
+  width: 100%;
+}
+
+.btn-action-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+@media (max-width: 600px) {
+  .order-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Sticky Floating WhatsApp Button --- */
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #25d366;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: floatPulse 3s infinite ease-in-out;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+  color: #ffffff;
+}
+
+@keyframes floatPulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@media (max-width: 640px) {
+  .floating-whatsapp-btn {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* --- Full RTL Layout Mirroring & Arabic Typography --- */
+html[lang="ar"],
+html[dir="rtl"] body {
+  font-family: var(--font-ar);
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] button,
+html[lang="ar"] input,
+html[lang="ar"] select,
+html[lang="ar"] textarea {
+  font-family: var(--font-ar);
+}
+
+html[dir="rtl"] {
+  text-align: right;
+}
+
+/* Floating WhatsApp button flips to bottom-left in RTL */
+html[dir="rtl"] .floating-whatsapp-btn {
+  left: 24px;
+  right: auto;
+}
+
+@media (max-width: 640px) {
+  html[dir="rtl"] .floating-whatsapp-btn {
+    left: 16px;
+    right: auto;
+  }
+}
+
+/* Product Detail Drawer Close Button flips to top-left in RTL */
+html[dir="rtl"] .drawer-close-btn {
+  left: 20px;
+  right: auto;
+}
+
+/* Toolbar search icon position flips to right in RTL */
+html[dir="rtl"] .search-icon {
+  right: 14px;
+  left: auto;
+}
+
+html[dir="rtl"] .toolbar-search .input-text {
+  padding-right: 42px;
+  padding-left: 16px;
+}
+
+/* Featured Badge position flips to left in RTL */
+html[dir="rtl"] .product-card-featured-tag {
+  left: 12px;
+  right: auto;
+}
+
+/* Breadcrumb separators & alignment in RTL */
+html[dir="rtl"] .catalog-breadcrumb,
+html[dir="rtl"] .drawer-breadcrumb {
+  direction: rtl;
+}
+
+/* Form group labels and inputs in RTL */
+html[dir="rtl"] .form-group {
+  text-align: right;
+}
+
+html[dir="rtl"] .option-swatch-group {
+  text-align: right;
+}
+
+html[dir="rtl"] .option-value-btn {
+  margin: 0 0 8px 8px;
+}
+
 
 
