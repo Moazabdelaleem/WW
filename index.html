@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Explore our premium collection of hand-crafted furniture. High-quality materials and design.">
+  <title>ArtisanWood | Fine Furniture Catalog</title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="has-hero">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        [Workshop<span>Catalog</span>]
+      </a>
+      <nav class="nav-links">
+        <span id="local-mode-badge"
+          style="display:none; font-size: 12px; font-weight: 600; background: #eef2ff; color: #3730a3; padding: 3px 9px; border-radius: 999px; margin-right: 4px;"
+          title="Data is stored only in this browser — not shared with other visitors" data-i18n="nav.localBadge">Local
+          Demo Mode</span>
+        <a href="index.html" class="nav-link" data-i18n="nav.catalog">Catalog</a>
+        <a href="custom-request.html" class="nav-link" data-i18n="nav.designYourOwn">Upload Custom Design</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <p class="hero-tag" data-i18n="hero.tag">[Workshop & Catalog Name]</p>
+      <h1 class="hero-title" data-i18n="hero.title">Custom Furniture & Carpentry Catalog</h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle">Browse products, pick custom dimensions & options, or upload a reference photo for a quick price estimate.</p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 16px;">
+        <a href="#category-bar" class="btn btn-primary" data-i18n="hero.ctaBrowse">Browse Catalog ↓</a>
+        <a href="custom-request.html" class="btn btn-accent" data-i18n="hero.ctaUpload">Upload Photo for Quote →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog Section -->
+  <section class="catalog-section">
+    <div class="container">
+
+      <!-- Main Category Dropdown & Subcategory Bar -->
+      <div class="department-bar" id="department-bar">
+        <label for="department-select" class="department-label" data-i18n="filter.deptLabel">Main Category:</label>
+        <select id="department-select" class="select-input select-department">
+          <option value="all" data-i18n="filter.deptAll">All Categories</option>
+          <option value="home" data-i18n="filter.deptHome">Home Furniture & Living</option>
+          <option value="carpentry" data-i18n="filter.deptCarpentry">Bespoke Carpentry & Doors</option>
+          <option value="office" data-i18n="filter.deptOffice">Executive Office</option>
+        </select>
+      </div>
+
+      <!-- Category Bar -->
+      <div class="category-bar" id="category-bar">
+        <button class="category-pill active" data-category="all">
+          All Furniture <span class="pill-count">0</span>
+        </button>
+      </div>
+
+      <!-- Catalog Toolbar -->
+      <div class="catalog-toolbar">
+        <div class="search-wrapper toolbar-search">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="9" r="6" />
+            <path d="m15 15 3 3" />
+          </svg>
+          <input type="text" id="search-input" class="input-text" placeholder="Search furniture..."
+            data-i18n-placeholder="filter.searchPlaceholder">
+        </div>
+        <div class="toolbar-filters">
+          <select id="price-type-filter" class="select-input select-sm">
+            <option value="all" data-i18n="filter.anyPrice">Any Price Structure</option>
+            <option value="fixed" data-i18n="filter.fixed">Fixed Price</option>
+            <option value="range" data-i18n="filter.range">Price Range</option>
+            <option value="on_request" data-i18n="filter.onRequest">Price on Request</option>
+          </select>
+          <label class="toggle-wrapper">
+            <input type="checkbox" id="available-only-toggle" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="filter.availableOnly">Available Only</span>
+          </label>
+          <span class="products-count" id="products-count-label">0 products</span>
+        </div>
+      </div>
+
+      <!-- Loader -->
+      <div id="catalog-loader" style="display: flex; justify-content: center; padding: 80px 0;">
+        <div class="spinner"></div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="products-grid" style="display: none;">
+        <!-- Product cards dynamically loaded -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Product Detail Drawer -->
+  <div class="product-drawer" id="product-detail-modal">
+    <div class="drawer-panel">
+
+      <!-- Sticky close bar -->
+      <button class="drawer-close-btn" id="close-detail-modal" aria-label="Close">
+        <span class="drawer-close-label" data-i18n="detail.close">Close</span>
+        <span class="drawer-close-x">&times;</span>
+      </button>
+
+      <!-- Stacked image gallery (populated by JS) -->
+      <div class="drawer-gallery" id="drawer-gallery-container"></div>
+
+      <!-- Content -->
+      <div class="drawer-content">
+        <span class="detail-category" id="detail-category">Category</span>
+        <h2 class="detail-title" id="detail-title">Product Name</h2>
+
+        <div class="detail-price-box">
+          <span class="detail-price" id="detail-price">$0.00</span>
+          <span class="detail-price-type" id="detail-price-type">(Fixed)</span>
+        </div>
+
+        <div class="detail-status" id="detail-status-box"></div>
+
+        <!-- Customization options -->
+        <div id="detail-options-container"></div>
+
+        <h3 class="detail-desc-title" data-i18n="detail.description">Description</h3>
+        <p class="detail-desc" id="detail-description">Product description goes here.</p>
+
+        <!-- Order Request Form -->
+        <div class="order-request-form">
+          <div class="form-group">
+            <label class="form-label" for="order-quantity" data-i18n="detail.quantity">Quantity</label>
+            <input type="number" id="order-quantity" class="input-text" value="1" min="1" style="max-width: 100px;">
+          </div>
+
+          <div id="order-form-fields">
+            <div class="form-group">
+              <label class="form-label" for="order-customer-name" data-i18n="detail.yourName">Your name *</label>
+              <input type="text" id="order-customer-name" class="input-text" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="order-customer-phone" data-i18n="detail.phone">Phone number *</label>
+              <input type="tel" id="order-customer-phone" class="input-text" placeholder="01xxxxxxxxx"
+                data-i18n-placeholder="detail.phonePlaceholder" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="order-customer-notes" data-i18n="detail.notes">Notes (optional)</label>
+              <textarea id="order-customer-notes" class="form-textarea"
+                placeholder="Delivery address, timing, anything else..."
+                data-i18n-placeholder="detail.notesPlaceholder"></textarea>
+            </div>
+          </div>
+
+          <p style="font-size: 13px; color: var(--text-muted); margin: 8px 0 12px;" data-i18n="detail.disclaimer">
+            Order directly via WhatsApp or send a web request.
+          </p>
+
+          <div class="order-actions-grid">
+            <button type="button" class="btn btn-primary" id="order-request-btn"
+              data-i18n="detail.requestBtn">Request this order</button>
+            <button type="button" class="btn-whatsapp" id="whatsapp-order-btn">
+              <svg viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+              </svg>
+              <span data-i18n="detail.whatsappBtn">Order via WhatsApp</span>
+            </button>
+          </div>
+
+          <div id="order-success-msg"
+            style="display:none; margin-top: 12px; padding: 12px; background: #d1fae5; color: #065f46; border-radius: 6px; font-size: 14px;"
+            data-i18n="detail.successMsg">
+            Request received — we'll call you shortly to confirm.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      
+      <!-- Trust Reassurance Bar -->
+      <div class="footer-trust-bar">
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <div class="trust-title" data-i18n="footer.trustDeliveryTitle">Direct Workshop Delivery</div>
+            <div class="trust-subtitle" data-i18n="footer.trustDeliverySub">Inspection on delivery before payment</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div>
+            <div class="trust-title" data-i18n="footer.trustWoodTitle">Natural Solid Woods</div>
+            <div class="trust-subtitle" data-i18n="footer.trustWoodSub">100% Seasoned Beech & Oak timber</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M6 12v-4M10 12v-2M14 12v-4M18 12v-2"/></svg>
+          </div>
+          <div>
+            <div class="trust-title" data-i18n="footer.trustCustomTitle">Custom Dimensions</div>
+            <div class="trust-subtitle" data-i18n="footer.trustCustomSub">Tailored to your exact home space</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div>
+            <div class="trust-title" data-i18n="footer.trustSupportTitle">WhatsApp Direct Support</div>
+            <div class="trust-subtitle" data-i18n="footer.trustSupportSub">Fast quotes & photo inquiries</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Footer Grid -->
+      <div class="footer-grid">
+        <!-- Col 1: Workshop Brand -->
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            [Workshop<span>Catalog</span>]
+          </a>
+          <p class="footer-desc" data-i18n="footer.brandDesc">
+            Direct workshop furniture & custom carpentry. Built to order with premium hardwoods and delivered straight to your home.
+          </p>
+          <div style="font-size: 13px; color: #9ca3af;">
+            <strong style="color: #ffffff;" data-i18n="footer.hoursLabel">Working Hours:</strong> <span data-i18n="footer.hoursVal">Sat – Thu: 10:00 AM – 10:00 PM</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div>
+          <h4 class="footer-col-title" data-i18n="footer.quickLinksTitle">Quick Links</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html" data-i18n="nav.catalog">Browse Catalog</a></li>
+            <li><a href="custom-request.html" data-i18n="nav.designYourOwn">Upload Custom Design</a></li>
+            <li><a href="https://wa.me/" target="_blank" data-i18n="footer.linkWhatsApp">Direct WhatsApp Order</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Contact Us Section -->
+        <div>
+          <h4 class="footer-col-title" data-i18n="footer.contactTitle">Contact Us</h4>
+          <div class="footer-contact-list">
+            <div class="contact-item">
+              <span class="contact-item-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <span data-i18n="footer.addressVal">Main Workshop & Showroom, Industrial Area, Egypt</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <div>
+                <a href="tel:01000000000">0100 000 0000</a> / <a href="tel:01200000000">0120 000 0000</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </span>
+              <a href="https://wa.me/" target="_blank" data-i18n="footer.whatsappChat">Chat on WhatsApp (Instant Quote)</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+              </span>
+              <a href="mailto:info@workshop-catalog.com">info@workshop-catalog.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">&copy; 2026 [Workshop Catalog]. All rights reserved.</p>
+        <p data-i18n="footer.taglineSub">Quality Carpentry & Custom Furniture</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Supabase Credentials Missing Modal -->
+  <div class="modal-overlay" id="supabase-config-modal">
+    <div class="modal-container" style="max-width: 460px; padding: 30px;">
+      <h2 style="margin-bottom: 12px; font-size: 24px;" data-i18n="db.title">Database Connection</h2>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;" data-i18n="db.desc">
+        To browse the catalog and access the Admin panel, please hook up your Supabase project. Enter your credentials
+        below. They are saved securely in your local browser storage.
+      </p>
+
+      <form id="config-setup-form">
+        <div class="form-group">
+          <label class="form-label" for="config-url" data-i18n="db.urlLabel">Supabase Project URL</label>
+          <input type="url" id="config-url" class="input-text" placeholder="https://your-id.supabase.co" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="config-anon-key" data-i18n="db.keyLabel">Supabase Anon Key</label>
+          <input type="text" id="config-anon-key" class="input-text"
+            placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;"
+          data-i18n="db.connectBtn">Connect Database</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- App Scripts -->
+  <script type="module" src="js/i18n.js"></script>
+  <script type="module" src="js/catalog.js"></script>
+
+</body>
+
+</html>

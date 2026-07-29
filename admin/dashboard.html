@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | ArtisanWood</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- Admin Header -->
+  <header class="admin-header">
+    <div class="container admin-header-container">
+      <a href="../index.html" class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Artisan<span>Wood</span> <span style="font-size: 13px; font-weight:500; background: var(--accent-100); color: var(--accent-700); padding: 2px 8px; border-radius:4px; margin-left:8px;">Admin</span>
+      </a>
+      
+      <div class="admin-nav">
+        <span id="local-mode-badge" style="display:none; font-size: 12px; font-weight: 600; background: #eef2ff; color: #3730a3; padding: 3px 9px; border-radius: 999px;" title="Data is stored only in this browser — not shared with public visitors">Local Demo Mode</span>
+        <div class="user-badge">
+          <span id="admin-user-email">admin@artisanwood.com</span>
+        </div>
+        <button id="disconnect-db-btn" class="btn btn-secondary btn-sm" title="Disconnect real database credentials and return to local demo mode" data-i18n="admin.disconnectDB">Disconnect DB</button>
+        <button id="admin-logout-btn" class="btn btn-danger btn-sm" data-i18n="admin.signOut">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Content -->
+  <main class="section-padding">
+    <div class="container">
+      
+      <!-- Statistics Dashboard -->
+      <section class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon">🛋️</div>
+          <div class="stat-content">
+            <span class="stat-number" id="stat-total-products">0</span>
+            <span class="stat-label" data-i18n="admin.totalProducts">Total Products</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-content">
+            <span class="stat-number" id="stat-out-of-stock">0</span>
+            <span class="stat-label" data-i18n="admin.outOfStock">Out of Stock</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📁</div>
+          <div class="stat-content">
+            <span class="stat-number" id="stat-total-categories">0</span>
+            <span class="stat-label" data-i18n="admin.categories">Categories</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Tabs -->
+      <div class="dashboard-tabs">
+        <button class="tab-btn active" id="tab-products" data-i18n="admin.manageProducts">Manage Products</button>
+        <button class="tab-btn" id="tab-categories" data-i18n="admin.manageCategories">Manage Categories</button>
+        <button class="tab-btn" id="tab-orders" data-i18n="admin.orderRequests">Order Requests <span class="category-count" id="orders-pending-badge" style="display:none;">0</span></button>
+        <button class="tab-btn" id="tab-custom-requests" data-i18n="admin.customRequests">Custom Requests <span class="category-count" id="custom-requests-pending-badge" style="display:none;">0</span></button>
+      </div>
+
+      <!-- Tab Panels -->
+      <section class="dashboard-panels">
+        
+        <!-- PRODUCTS PANEL -->
+        <div class="tab-panel active" id="panel-products">
+          <div class="products-grid-header">
+            <div class="search-wrapper" style="width: 100%; max-width: 320px;">
+              <input type="text" id="admin-product-search" class="input-text" placeholder="Search catalog...">
+            </div>
+            <button class="btn btn-accent" id="add-product-btn">
+              <span style="font-size: 16px; font-weight: bold;">+</span> <span data-i18n="admin.addProduct">Add Product</span>
+            </button>
+          </div>
+
+          <!-- Product CRUD list -->
+          <div id="admin-products-loader" style="display: flex; justify-content: center; padding: 40px 0;">
+            <div class="spinner"></div>
+          </div>
+          
+          <div class="admin-card-list" id="admin-products-list" style="display: none;">
+            <!-- Products loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- CATEGORIES PANEL -->
+        <div class="tab-panel" id="panel-categories">
+          <div class="categories-layout">
+            
+            <!-- Category Creation Form (Sidebar-like) -->
+            <div class="category-form-container">
+              <h3 id="category-form-title" style="margin-bottom: 16px;" data-i18n="admin.createCategory">Create Category</h3>
+              
+              <form id="admin-category-form">
+                <input type="hidden" id="category-edit-id" value="">
+                
+                <div class="form-group">
+                  <label class="form-label" for="category-name" data-i18n="admin.categoryName">Category Name</label>
+                  <input type="text" id="category-name" class="input-text" placeholder="e.g. Dining Tables" required>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                  <button type="submit" id="category-submit-btn" class="btn btn-primary" style="flex: 1;" data-i18n="admin.save">Save</button>
+                  <button type="button" id="category-cancel-btn" class="btn btn-secondary" style="display: none;" data-i18n="admin.cancel">Cancel</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Categories List Grid -->
+            <div>
+              <h3 style="margin-bottom: 16px;">All Categories</h3>
+              <div id="admin-categories-loader" style="display: flex; justify-content: center; padding: 20px 0;">
+                <div class="spinner"></div>
+              </div>
+              <div class="admin-card-list" id="admin-categories-list" style="display: none;">
+                <!-- Categories loaded dynamically -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ORDERS PANEL -->
+        <div class="tab-panel" id="panel-orders">
+          <div class="products-grid-header">
+            <select id="orders-status-filter" class="select-input" style="max-width: 220px;">
+              <option value="all" data-i18n="admin.allStatuses">All statuses</option>
+              <option value="pending" data-i18n="admin.pending">Pending</option>
+              <option value="confirmed" data-i18n="admin.confirmed">Confirmed</option>
+              <option value="rejected" data-i18n="admin.rejected">Rejected</option>
+            </select>
+          </div>
+
+          <div id="admin-orders-loader" style="display: flex; justify-content: center; padding: 40px 0;">
+            <div class="spinner"></div>
+          </div>
+
+          <div class="admin-card-list" id="admin-orders-list" style="display: none;">
+            <!-- Orders loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- CUSTOM REQUESTS PANEL -->
+        <div class="tab-panel" id="panel-custom-requests">
+          <div class="products-grid-header">
+            <select id="custom-requests-status-filter" class="select-input" style="max-width: 220px;">
+              <option value="all" data-i18n="admin.allStatuses">All statuses</option>
+              <option value="new" data-i18n="admin.new">New</option>
+              <option value="in_review" data-i18n="admin.inReview">In Review</option>
+              <option value="quoted" data-i18n="admin.quoted">Quoted</option>
+              <option value="closed" data-i18n="admin.closed">Closed</option>
+            </select>
+          </div>
+
+          <div id="admin-custom-requests-loader" style="display: flex; justify-content: center; padding: 40px 0;">
+            <div class="spinner"></div>
+          </div>
+
+          <div class="admin-card-list" id="admin-custom-requests-list" style="display: none;">
+            <!-- Custom requests loaded dynamically -->
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- ORDER DETAIL MODAL -->
+  <div class="modal-overlay" id="order-detail-modal">
+    <div class="modal-container" style="max-width: 560px;">
+      <button class="modal-close" id="close-order-modal">&times;</button>
+      <div style="padding: 30px;">
+        <h2 style="margin-bottom: 4px;" id="order-detail-customer">Customer name</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;" id="order-detail-phone">Phone</p>
+
+        <div id="order-detail-items" style="margin-bottom: 20px;">
+          <!-- Line items rendered dynamically -->
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="order-detail-notes">Internal notes</label>
+          <textarea id="order-detail-notes" class="form-textarea" placeholder="Add a note for your own reference..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn btn-secondary" id="order-mark-pending" style="flex: 1;">Pending</button>
+          <button class="btn btn-primary" id="order-mark-confirmed" style="flex: 1;">Confirm</button>
+          <button class="btn btn-danger" id="order-mark-rejected" style="flex: 1;">Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM REQUEST DETAIL MODAL -->
+  <div class="modal-overlay" id="custom-request-detail-modal">
+    <div class="modal-container" style="max-width: 560px;">
+      <button class="modal-close" id="close-custom-request-modal">&times;</button>
+      <div style="padding: 30px;">
+        <h2 style="margin-bottom: 4px;" id="custom-request-detail-customer">Customer name</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;" id="custom-request-detail-phone">Phone</p>
+
+        <div style="margin-bottom: 16px;">
+          <span class="badge badge-neutral" id="custom-request-detail-category">Category</span>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label class="form-label" style="margin-bottom: 4px;">What they're picturing</label>
+          <p id="custom-request-detail-description" style="font-size: 14px;"></p>
+        </div>
+
+        <div style="margin-bottom: 14px;" id="custom-request-detail-dimensions-wrap">
+          <label class="form-label" style="margin-bottom: 4px;">Rough size</label>
+          <p id="custom-request-detail-dimensions" style="font-size: 14px;"></p>
+        </div>
+
+        <div style="margin-bottom: 14px;" id="custom-request-detail-materials-wrap">
+          <label class="form-label" style="margin-bottom: 4px;">Materials mentioned</label>
+          <p id="custom-request-detail-materials" style="font-size: 14px;"></p>
+        </div>
+
+        <div style="margin-bottom: 20px;" id="custom-request-detail-reference-wrap">
+          <label class="form-label" style="margin-bottom: 4px;">Reference</label>
+          <p id="custom-request-detail-reference" style="font-size: 14px; color: var(--text-muted);"></p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="custom-request-detail-notes">Internal notes / quote</label>
+          <textarea id="custom-request-detail-notes" class="form-textarea" placeholder="e.g. Quoted $1,450, waiting on customer reply..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="custom-request-detail-status">Status</label>
+          <select id="custom-request-detail-status" class="select-input">
+            <option value="new">New</option>
+            <option value="in_review">In Review</option>
+            <option value="quoted">Quoted</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+
+        <button class="btn btn-accent" id="custom-request-save-btn" style="width: 100%; margin-top: 10px;">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT PRODUCT MODAL -->
+  <div class="modal-overlay" id="product-form-modal">
+    <div class="modal-container admin-modal-container">
+      <button class="modal-close" id="close-product-modal">&times;</button>
+      <div style="padding: 30px;">
+        <h2 id="product-modal-title" style="margin-bottom: 24px;">Add New Product</h2>
+        
+        <form id="admin-product-form">
+          <input type="hidden" id="product-edit-id" value="">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="product-name">Product Name *</label>
+              <input type="text" id="product-name" class="input-text" placeholder="Rustic Oak Dining Table" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="product-category">Category *</label>
+              <select id="product-category" class="select-input" required>
+                <option value="" disabled selected>Select category...</option>
+                <!-- populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="product-price-type">Price Structure *</label>
+              <select id="product-price-type" class="select-input" required>
+                <option value="fixed">Fixed Price</option>
+                <option value="range">Starting Price (Range)</option>
+                <option value="on_request">On Request</option>
+              </select>
+            </div>
+            
+            <div class="form-group" id="price-input-group">
+              <label class="form-label" for="product-price">Price ($) *</label>
+              <input type="number" id="product-price" class="input-text" placeholder="1250" min="0" step="0.01" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-description">Description</label>
+            <textarea id="product-description" class="form-textarea" placeholder="Explain materials, finish, dimensions, lead times..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="toggle-wrapper">
+              <input type="checkbox" id="product-available" class="toggle-input" checked>
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Mark as Available (Visible in catalog)</span>
+            </label>
+          </div>
+
+          <!-- Product Images Uploader -->
+          <div class="form-group">
+            <label class="form-label">Product Photos (Upload multiple)</label>
+            
+            <!-- Drag & Drop Zone -->
+            <div class="image-upload-zone" id="upload-zone">
+              <div class="upload-icon">📁</div>
+              <p class="upload-text">Drag and drop images here or <strong>click to browse</strong></p>
+              <p class="upload-hint">Supports JPEG, PNG, WebP (Max 5MB per image)</p>
+              <input type="file" id="product-file-input" class="hidden-file-input" multiple accept="image/*">
+            </div>
+
+            <!-- Upload Previews -->
+            <div class="uploaded-images-preview" id="previews-container">
+              <!-- Thumbnail images added dynamically -->
+            </div>
+          </div>
+
+          <!-- Customization Options (existing products only) -->
+          <div class="form-group" id="options-section" style="display: none; margin-top: 10px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+            <label class="form-label">Customization Options</label>
+            <p style="font-size: 13px; color: var(--text-muted); margin: -4px 0 12px;">
+              Groups like "Fabric" or "Size" that customers pick from on the store. Save the product first before adding options.
+            </p>
+
+            <div id="option-groups-list"><!-- rendered dynamically --></div>
+
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+              <input type="text" id="new-option-group-name" class="input-text" placeholder="New group name, e.g. Fabric" style="flex: 2;">
+              <select id="new-option-group-type" class="select-input" style="flex: 1;">
+                <option value="select">Single choice</option>
+                <option value="multiselect">Multiple choice</option>
+                <option value="numeric">Slider / count</option>
+              </select>
+              <button type="button" id="add-option-group-btn" class="btn btn-secondary btn-sm">Add group</button>
+            </div>
+          </div>
+
+          <!-- Save/Cancel Actions -->
+          <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+            <button type="button" id="product-form-cancel" class="btn btn-secondary">Cancel</button>
+            <button type="submit" id="product-form-submit" class="btn btn-accent">Save Product</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- App Scripts -->
+  <script type="module" src="../js/i18n.js"></script>
+  <script type="module" src="../js/admin.js"></script>
+
+</body>
+</html>

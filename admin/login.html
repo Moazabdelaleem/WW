@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | ArtisanWood</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="admin-login-layout">
+
+  <div class="login-card">
+    <div class="login-header">
+      <a href="../index.html" class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Artisan<span>Wood</span>
+      </a>
+      <p class="login-subtitle" data-i18n="login.subtitle">Workshop Admin CMS Portal</p>
+    </div>
+
+    <!-- Local Demo Mode Hint (shown only when no real Supabase project is connected) -->
+    <div id="local-mode-hint" style="display:none; font-size: 13px; background: #eef2ff; color: #3730a3; padding: 10px 12px; border-radius: 6px; margin-bottom: 16px;">
+      <span data-i18n="login.localHint">Local demo mode — no database connected yet. Sign in with</span>
+      <strong id="local-mode-email"></strong> / <strong id="local-mode-password"></strong>.
+    </div>
+
+    <!-- Error/Success Alerts -->
+    <div id="login-feedback" class="feedback-message"></div>
+
+    <form id="admin-login-form">
+      <div class="form-group">
+        <label class="form-label" for="login-email" data-i18n="login.emailLabel">Email Address</label>
+        <input type="email" id="login-email" class="input-text" placeholder="admin@artisanwood.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-password" data-i18n="login.passLabel">Password</label>
+        <input type="password" id="login-password" class="input-text" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+        <span data-i18n="login.signInBtn">Sign In</span>
+      </button>
+    </form>
+
+    <div class="setup-trigger-container">
+      <button class="link-btn" id="trigger-setup-modal" data-i18n="login.configureDB">Configure Database Connection</button>
+    </div>
+  </div>
+
+  <!-- Supabase Credentials Missing Modal -->
+  <div class="modal-overlay" id="supabase-config-modal">
+    <div class="modal-container" style="max-width: 460px; padding: 30px;">
+      <button class="modal-close" id="close-config-modal">&times;</button>
+      <h2 style="margin-bottom: 12px; font-size: 24px;">Database Connection</h2>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">
+        Configure your local Supabase database keys. Once submitted, they will be saved to your browser's local storage and used across the entire application.
+      </p>
+      
+      <form id="config-setup-form">
+        <div class="form-group">
+          <label class="form-label" for="config-url">Supabase Project URL</label>
+          <input type="url" id="config-url" class="input-text" placeholder="https://your-id.supabase.co" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="config-anon-key">Supabase Anon Key</label>
+          <input type="text" id="config-anon-key" class="input-text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Connect Database</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- App Scripts -->
+  <script type="module" src="../js/i18n.js"></script>
+  <script type="module" src="../js/auth.js"></script>
+
+</body>
+</html>
