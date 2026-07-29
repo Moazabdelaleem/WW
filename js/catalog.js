@@ -871,7 +871,7 @@ async function handleOrderRequestSubmit() {
   const quantity = Math.max(1, parseInt(orderQuantity.value) || 1);
 
   if (!name || !phone) {
-    alert(t('detail.nameRequired'));
+    showToast(t('detail.nameRequired'), 'error');
     return;
   }
 
