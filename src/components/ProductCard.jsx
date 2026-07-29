@@ -2,7 +2,7 @@ import React from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
 
-export function ProductCard({ product, index }) {
+export function ProductCard({ product }) {
   const { t, tr } = useI18n();
   const { categories, productImages, openProductModal } = useCatalog();
 
@@ -25,13 +25,12 @@ export function ProductCard({ product, index }) {
 
   return (
     <div
-      class={`product-card reveal-card ${product.is_featured ? 'is-featured' : ''}`}
-      style={{ '--reveal-delay': `${Math.min(index * 55, 400)}ms` }}
+      class={`product-card ${product.is_featured ? 'is-featured' : ''}`}
       onClick={() => openProductModal(product)}
     >
       <div class="product-card-img-wrapper">
         {product.is_featured && (
-          <span class="product-card-featured-tag">★ Featured</span>
+          <span class="product-badge-overlay badge badge-warning">★ Featured</span>
         )}
         
         <img
@@ -51,24 +50,21 @@ export function ProductCard({ product, index }) {
             onError={(e) => { e.target.src = fallbackImg; }}
           />
         )}
-
-        <div class="product-card-overlay">
-          <span class="product-card-category-overlay">{categoryName}</span>
-          <p class="product-card-desc-overlay">{desc}</p>
-          <span class="product-card-view-btn">{t('View Details →')}</span>
-        </div>
       </div>
 
-      <div class="product-card-base">
-        <div>
-          <h3 class="product-card-title">{productName}</h3>
+      <div class="product-card-content">
+        <span class="product-card-category">{categoryName}</span>
+        <h3 class="product-card-title">{productName}</h3>
+        <p class="product-card-desc">{desc}</p>
+
+        <div class="product-card-footer">
           <span class="product-card-price">{formatPriceText()}</span>
+          {!product.is_available ? (
+            <span class="badge badge-danger">{t('Made to Order')}</span>
+          ) : (
+            <span class="btn btn-secondary btn-sm">{t('View Details →')}</span>
+          )}
         </div>
-        {!product.is_available && (
-          <span class="badge badge-danger" style={{ fontSize: '10px' }}>
-            {t('Made to Order')}
-          </span>
-        )}
       </div>
     </div>
   );
