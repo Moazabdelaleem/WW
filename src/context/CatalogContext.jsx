@@ -9,7 +9,12 @@ export function CatalogProvider({ children }) {
   const [dbData, setDbData] = useState(() => {
     try {
       const saved = localStorage.getItem(DB_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && Array.isArray(parsed.products) && parsed.products.length > 0) {
+          return parsed;
+        }
+      }
     } catch (e) {
       console.error('Failed to load local DB state:', e);
     }
