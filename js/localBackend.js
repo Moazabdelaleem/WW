@@ -14,7 +14,7 @@
 // the app needs to change, because the rest of the code only ever talks to
 // the object returned by getSupabaseClient().
 
-const DB_KEY = 'LOCAL_DB_V1';
+const DB_KEY = 'LOCAL_DB_V3';
 const IMAGE_STORE_KEY = 'LOCAL_IMAGE_STORE_V1';
 const SESSION_KEY = 'LOCAL_AUTH_SESSION';
 const ADMIN_EMAIL_KEY = 'LOCAL_ADMIN_EMAIL';
@@ -145,36 +145,47 @@ export function seedDB() {
   ];
 
   const product_images = [
-    { id: uuid(), product_id: p1, url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
-    { id: uuid(), product_id: p1, url: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
+    // p1: Oakhurst Dining Table (Perspective 1: Full Table, Perspective 2: Table Wood Detail)
+    { id: uuid(), product_id: p1, url: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
+    { id: uuid(), product_id: p1, url: 'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p2: Wraith Lounge Sofa (Perspective 1: Sofa Front View, Perspective 2: Sofa Room Angle)
     { id: uuid(), product_id: p2, url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
-    { id: uuid(), product_id: p2, url: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
+    { id: uuid(), product_id: p2, url: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p3: Solene Platform Bed (Perspective 1: Full Bed Room View, Perspective 2: Headboard Frame Detail)
     { id: uuid(), product_id: p3, url: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p3, url: 'https://images.unsplash.com/photo-1540518614846-7ede433c5172?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p4: Custom Teak Bench (Perspective 1: Full Bench Outdoor, Perspective 2: Teak Slats Close-up)
     { id: uuid(), product_id: p4, url: 'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p4, url: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p5: Aria Accent Chair (Perspective 1: Armchair Front View, Perspective 2: Armchair Side Perspective)
     { id: uuid(), product_id: p5, url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p5, url: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p6: Solid Oak Entrance Door (Perspective 1: Full Door View, Perspective 2: Door Timber & Hardware Detail)
     { id: uuid(), product_id: p6, url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
-    { id: uuid(), product_id: p6, url: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
+    { id: uuid(), product_id: p6, url: 'https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p7: Walnut Acoustic Wall Panels (Perspective 1: Wall Accent View, Perspective 2: Slat Texture Detail)
     { id: uuid(), product_id: p7, url: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p7, url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p8: Fitted Master Wardrobe (Perspective 1: Wardrobe Exterior View, Perspective 2: Wardrobe Drawers Interior)
     { id: uuid(), product_id: p8, url: 'https://images.unsplash.com/photo-1558882224-dda166733046?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p8, url: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p9: Executive Mahogany Desk (Perspective 1: Full Desk View, Perspective 2: Desk Surface & Inlay Detail)
     { id: uuid(), product_id: p9, url: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p9, url: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p10: Ergonomic Mesh Manager Chair (Perspective 1: Manager Chair Front, Perspective 2: Mesh Back Profile)
     { id: uuid(), product_id: p10, url: 'https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p10, url: 'https://images.unsplash.com/photo-1589584649628-b405527a08b9?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
 
+    // p11: 10-Person Conference Table (Perspective 1: Full Conference Table, Perspective 2: Table Top Perspective)
     { id: uuid(), product_id: p11, url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop', sort_order: 0, created_at: nowIso() },
     { id: uuid(), product_id: p11, url: 'https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=800&auto=format&fit=crop', sort_order: 1, created_at: nowIso() },
   ];

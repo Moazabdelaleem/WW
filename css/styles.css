@@ -620,10 +620,30 @@ button, input, select, textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: var(--transition-slow);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.product-card:hover .product-card-img {
+.product-card-img-primary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.product-card-img-secondary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 2;
+}
+
+.product-card:hover .product-card-img-secondary {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.product-card:hover .product-card-img-primary {
   transform: scale(1.05);
 }
 
