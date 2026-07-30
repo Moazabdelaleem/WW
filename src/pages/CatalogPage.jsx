@@ -10,8 +10,8 @@ export function CatalogPage() {
     <>
       <Hero />
       <EarlyTrustBar />
-      <section class="catalog-section" id="catalog-section">
-        <div class="container">
+      <section className="catalog-section" id="catalog-section">
+        <div className="container">
           <CatalogBreadcrumb />
           <FilterControls />
           <ProductsGrid />

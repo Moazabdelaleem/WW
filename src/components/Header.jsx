@@ -1,18 +1,18 @@
 import React from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
-import { ShieldCheck, Globe, Sun, Moon } from 'lucide-react';
+import { Globe, Sun, Moon } from 'lucide-react';
 
 export function Header() {
   const { t, toggleLang } = useI18n();
   const { currentView, setCurrentView, theme, toggleTheme } = useCatalog();
 
   return (
-    <header class="site-header">
-      <div class="container header-container">
+    <header className="site-header">
+      <div className="container header-container">
         <a 
           href="#catalog-section" 
-          class="logo" 
+          className="logo" 
           onClick={(e) => {
             e.preventDefault();
             if (e.detail === 3) {
@@ -30,11 +30,11 @@ export function Header() {
           Artisan<span>Wood</span>
         </a>
         
-        <nav class="nav-links">
+        <nav className="nav-links">
           {/* Theme Toggle Button (Dark / Light) */}
           <button
             id="theme-toggle-btn"
-            class="btn btn-lang-toggle btn-sm"
+            className="btn btn-lang-toggle btn-sm"
             onClick={toggleTheme}
             aria-label="Toggle dark/light theme"
             title={theme === 'dark' ? t('nav.themeLight') : t('nav.themeDark')}
@@ -55,7 +55,7 @@ export function Header() {
 
           <button
             id="lang-toggle-btn"
-            class="btn btn-lang-toggle btn-sm"
+            className="btn btn-lang-toggle btn-sm"
             onClick={toggleLang}
             aria-label="Switch language"
           >
@@ -65,12 +65,11 @@ export function Header() {
 
           <span
             id="local-mode-badge"
+            className="badge badge-neutral"
             style={{
               fontSize: '12px',
               fontWeight: 600,
-              background: '#eef2ff',
-              color: '#3730a3',
-              padding: '3px 9px',
+              padding: '4px 10px',
               borderRadius: '999px'
             }}
             title="Data is stored only in this browser — not shared with other visitors"
@@ -79,7 +78,7 @@ export function Header() {
           </span>
 
           <button
-            class={`nav-link ${currentView === 'catalog' ? 'active' : ''}`}
+            className={`nav-link ${currentView === 'catalog' ? 'active' : ''}`}
             onClick={() => setCurrentView('catalog')}
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
@@ -87,7 +86,7 @@ export function Header() {
           </button>
 
           <button
-            class={`nav-link ${currentView === 'custom-request' ? 'active' : ''}`}
+            className={`nav-link ${currentView === 'custom-request' ? 'active' : ''}`}
             onClick={() => setCurrentView('custom-request')}
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >

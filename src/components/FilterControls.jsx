@@ -31,13 +31,13 @@ export function FilterControls() {
 
   return (
     <>
-      <div class="filter-controls-container">
+      <div className="filter-controls-container">
         {/* Department Switcher */}
-        <div class="department-bar">
-          <div class="department-header">
-            <span class="filter-step-label">{t('filter.deptLabel')}</span>
+        <div className="department-bar">
+          <div className="department-header">
+            <span className="filter-step-label">{t('filter.deptLabel')}</span>
             <select
-              class="select-input select-department"
+              className="select-input select-department"
               value={activeDepartment}
               onChange={(e) => setActiveDepartment(e.target.value)}
             >
@@ -50,14 +50,14 @@ export function FilterControls() {
         </div>
 
         {/* Subcategory Filter Pills */}
-        <div class="subcategory-bar-wrapper">
-          <span class="filter-step-label">{t('filter.subcatLabel')}</span>
-          <div class="category-bar">
+        <div className="subcategory-bar-wrapper">
+          <span className="filter-step-label">{t('filter.subcatLabel')}</span>
+          <div className="category-bar">
             <button
-              class={`category-pill ${activeCategory === 'all' ? 'active' : ''}`}
+              className={`category-pill ${activeCategory === 'all' ? 'active' : ''}`}
               onClick={() => setActiveCategory('all')}
             >
-              {t('filter.allFurniture')} <span class="pill-count">{totalDeptCount}</span>
+              {t('filter.allFurniture')} <span className="pill-count">{totalDeptCount}</span>
             </button>
 
             {visibleCategories.map(cat => {
@@ -65,10 +65,10 @@ export function FilterControls() {
               return (
                 <button
                   key={cat.id}
-                  class={`category-pill ${activeCategory === cat.id ? 'active' : ''}`}
+                  className={`category-pill ${activeCategory === cat.id ? 'active' : ''}`}
                   onClick={() => setActiveCategory(cat.id)}
                 >
-                  {tr(cat.name)} <span class="pill-count">{count}</span>
+                  {tr(cat.name)} <span className="pill-count">{count}</span>
                 </button>
               );
             })}
@@ -77,21 +77,21 @@ export function FilterControls() {
       </div>
 
       {/* Catalog Search & Filters Toolbar */}
-      <div class="catalog-toolbar">
-        <div class="search-wrapper toolbar-search">
-          <Search class="search-icon" width="18" height="18" />
+      <div className="catalog-toolbar">
+        <div className="search-wrapper toolbar-search">
+          <Search className="search-icon" width="18" height="18" />
           <input
             type="text"
-            class="input-text"
+            className="input-text"
             placeholder={t('filter.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        <div class="toolbar-filters">
+        <div className="toolbar-filters">
           <select
-            class="select-input select-sm"
+            className="select-input select-sm"
             value={priceTypeFilter}
             onChange={(e) => setPriceTypeFilter(e.target.value)}
           >
@@ -101,18 +101,18 @@ export function FilterControls() {
             <option value="on_request">{t('filter.onRequest')}</option>
           </select>
 
-          <label class="toggle-wrapper">
+          <label className="toggle-wrapper">
             <input
               type="checkbox"
-              class="toggle-input"
+              className="toggle-input"
               checked={availableOnly}
               onChange={(e) => setAvailableOnly(e.target.checked)}
             />
-            <span class="toggle-slider"></span>
-            <span class="toggle-label">{t('filter.availableOnly')}</span>
+            <span className="toggle-slider"></span>
+            <span className="toggle-label">{t('filter.availableOnly')}</span>
           </label>
 
-          <span class="products-count">
+          <span className="products-count">
             {t('products.showingCount', { n: filteredProducts.length })}
           </span>
         </div>

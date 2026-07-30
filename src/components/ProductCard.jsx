@@ -29,16 +29,16 @@ export function ProductCard({ product }) {
 
   return (
     <div
-      class={`product-card ${product.is_featured ? 'is-featured' : ''}`}
+      className={`product-card ${product.is_featured ? 'is-featured' : ''}`}
       onClick={() => openProductModal(product)}
     >
-      <div class="product-card-img-wrapper">
+      <div className="product-card-img-wrapper">
         {product.is_featured && (
-          <span class="product-badge-overlay badge badge-warning">★ Featured</span>
+          <span className="product-badge-overlay badge badge-warning">★ Featured</span>
         )}
         
         <img
-          class="product-card-img product-card-img-primary"
+          className="product-card-img product-card-img-primary"
           src={mainImg}
           alt={productName}
           loading="lazy"
@@ -46,17 +46,17 @@ export function ProductCard({ product }) {
         />
       </div>
 
-      <div class="product-card-content">
-        <span class="product-card-category">{categoryName}</span>
-        <h3 class="product-card-title">{productName}</h3>
-        <p class="product-card-desc">{desc}</p>
+      <div className="product-card-content">
+        <span className="product-card-category">{categoryName}</span>
+        <h3 className="product-card-title">{productName}</h3>
+        <p className="product-card-desc">{desc}</p>
 
-        <div class="product-card-footer">
-          <span class="product-card-price">{formatPriceText()}</span>
+        <div className="product-card-footer">
+          <span className="product-card-price">{formatPriceText()}</span>
           {!product.is_available ? (
-            <span class="badge badge-danger">{tr('Made to Order / Out of Stock')}</span>
+            <span className="badge badge-danger">{tr('Made to Order / Out of Stock')}</span>
           ) : (
-            <span class="btn btn-secondary btn-sm">{tr('View Details →')}</span>
+            <span className="btn btn-secondary btn-sm">{tr('View Details →')}</span>
           )}
         </div>
       </div>

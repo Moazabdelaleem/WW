@@ -349,7 +349,7 @@ button, input, select, textarea {
 /* --- Header / Navigation --- */
 .site-header {
   height: var(--header-height);
-  background-color: rgba(250, 250, 249, 0.8);
+  background-color: var(--bg-card);
   backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
@@ -2667,8 +2667,8 @@ button, input, select, textarea, .category-pill, .option-value-btn {
   align-items: center;
   gap: 14px;
   margin-bottom: 8px;
-  padding: 12px 18px;
-  background: #ffffff;
+  padding: 14px 18px;
+  background: var(--bg-main);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   flex-wrap: wrap;
@@ -2677,30 +2677,35 @@ button, input, select, textarea, .category-pill, .option-value-btn {
 .department-label {
   font-size: 13px;
   font-weight: 700;
-  color: #475569;
+  color: var(--text-muted);
   letter-spacing: 0.5px;
 }
 
 .select-department {
   font-size: 14px;
   font-weight: 600;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 10px;
   border: 1.5px solid var(--accent-500);
-  background-color: #ffffff;
-  color: #0f172a;
+  background-color: var(--bg-card);
+  color: var(--text-dark);
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
   min-height: 44px;
   flex-grow: 1;
   max-width: 380px;
 }
 
+.select-department option {
+  background-color: var(--bg-card);
+  color: var(--text-dark);
+}
+
 .select-department:focus {
-  border-color: var(--accent-700);
+  border-color: var(--accent-600);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(181, 147, 90, 0.2);
+  box-shadow: 0 0 0 3px rgba(181, 147, 90, 0.25);
 }
 
 @media (max-width: 640px) {
@@ -2708,6 +2713,7 @@ button, input, select, textarea, .category-pill, .option-value-btn {
     max-width: 100%;
     width: 100%;
   }
+}
 }
 
 /* --- Hero CTA Hierarchy --- */

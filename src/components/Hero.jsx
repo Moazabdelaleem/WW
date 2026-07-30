@@ -7,21 +7,21 @@ export function Hero() {
   const { setCurrentView } = useCatalog();
 
   return (
-    <section class="hero-section">
-      <div class="container">
-        <p class="hero-tag">{t('hero.tag')}</p>
-        <h1 class="hero-title">{t('hero.title')}</h1>
-        <p class="hero-subtitle">{t('hero.subtitle')}</p>
-        <div class="hero-cta-group">
+    <section className="hero-section">
+      <div className="container">
+        <p className="hero-tag">{t('hero.tag')}</p>
+        <h1 className="hero-title">{t('hero.title')}</h1>
+        <p className="hero-subtitle">{t('hero.subtitle')}</p>
+        <div className="hero-cta-group">
           <a
             href="#catalog-section"
-            class="btn btn-primary btn-hero-dominant"
+            className="btn btn-primary btn-hero-dominant"
             onClick={() => setCurrentView('catalog')}
           >
             {t('hero.ctaBrowse')}
           </a>
           <button
-            class="btn btn-outline-hero"
+            className="btn btn-outline-hero"
             onClick={() => setCurrentView('custom-request')}
             style={{ cursor: 'pointer' }}
           >
