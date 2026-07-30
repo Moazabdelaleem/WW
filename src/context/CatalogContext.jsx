@@ -47,29 +47,13 @@ export function CatalogProvider({ children }) {
   // Floating Toast Notifications
   const [toasts, setToasts] = useState([]);
 
-  // Theme Management (Light / Dark)
-  const THEME_KEY = 'APP_THEME';
-  const [theme, setTheme] = useState(() => {
-    try {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (saved === 'dark' || saved === 'light') return saved;
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-    } catch (e) {}
-    return 'light';
-  });
-
+  // Enforce Light Mode
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', 'light');
     try {
-      localStorage.setItem(THEME_KEY, theme);
+      localStorage.removeItem('APP_THEME');
     } catch (e) {}
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  }, []);
 
   // Save local dbData changes
   useEffect(() => {
@@ -621,8 +605,6 @@ export function CatalogProvider({ children }) {
       setCurrentView,
       toasts,
       showToast,
-      theme,
-      toggleTheme,
       seedDemoData,
       seedSupabaseDatabase,
       loadFromSupabase,

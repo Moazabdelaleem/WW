@@ -1,11 +1,11 @@
 import React from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
-import { Globe, Sun, Moon } from 'lucide-react';
+import { Globe } from 'lucide-react';
 
 export function Header() {
   const { t, toggleLang } = useI18n();
-  const { currentView, setCurrentView, theme, toggleTheme } = useCatalog();
+  const { currentView, setCurrentView } = useCatalog();
 
   return (
     <header className="site-header">
@@ -31,28 +31,6 @@ export function Header() {
         </a>
         
         <nav className="nav-links">
-          {/* Theme Toggle Button (Dark / Light) */}
-          <button
-            id="theme-toggle-btn"
-            className="btn btn-lang-toggle btn-sm"
-            onClick={toggleTheme}
-            aria-label="Toggle dark/light theme"
-            title={theme === 'dark' ? t('nav.themeLight') : t('nav.themeDark')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun width="14" height="14" style={{ color: '#f59e0b' }} />
-                <span>{t('nav.themeLight')}</span>
-              </>
-            ) : (
-              <>
-                <Moon width="14" height="14" style={{ color: '#6366f1' }} />
-                <span>{t('nav.themeDark')}</span>
-              </>
-            )}
-          </button>
-
           <button
             id="lang-toggle-btn"
             className="btn btn-lang-toggle btn-sm"
