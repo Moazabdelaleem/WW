@@ -77,6 +77,71 @@
   --shadow-premium: 0 20px 40px -8px rgba(0, 0, 0, 0.6);
 }
 
+[data-theme="dark"] .site-header {
+  background-color: var(--bg-card);
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: var(--accent-500);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.2);
+}
+
+[data-theme="dark"] option {
+  background-color: var(--bg-card);
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .option-value-btn {
+  background: var(--bg-main);
+  color: var(--text-dark);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .option-value-btn:hover {
+  border-color: var(--accent-500);
+  background-color: var(--primary-100);
+}
+
+[data-theme="dark"] .option-value-btn.selected {
+  background: var(--accent-100);
+  color: var(--accent-700);
+  border-color: var(--accent-500);
+}
+
+[data-theme="dark"] .stepper-btn {
+  background: var(--bg-main);
+  color: var(--text-dark);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .stepper-btn:hover {
+  background: var(--accent-100);
+  border-color: var(--accent-500);
+}
+
+.admin-demo-hint {
+  font-size: 13px;
+  background: var(--accent-100);
+  color: var(--accent-700);
+  border: 1px solid var(--accent-500);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 /* Global Theme Transition */
 body, .product-card, .site-header, .site-footer, .drawer-content, .login-card, input, select, textarea {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;

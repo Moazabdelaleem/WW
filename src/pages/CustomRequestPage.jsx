@@ -110,24 +110,24 @@ export function CustomRequestPage() {
   return (
     <>
       {/* Hero */}
-      <section class="hero-section">
-        <div class="container">
-          <p class="hero-tag">{t('custom.heroTag')}</p>
-          <h1 class="hero-title">{t('custom.heroTitle')}</h1>
-          <p class="hero-subtitle">{t('custom.heroSubtitle')}</p>
+      <section className="hero-section">
+        <div className="container">
+          <p className="hero-tag">{t('custom.heroTag')}</p>
+          <h1 className="hero-title">{t('custom.heroTitle')}</h1>
+          <p className="hero-subtitle">{t('custom.heroSubtitle')}</p>
         </div>
       </section>
 
       {/* Form Section */}
-      <section class="section-padding" style={{ padding: '60px 0' }}>
-        <div class="container" style={{ maxWidth: '640px' }}>
+      <section className="section-padding" style={{ padding: '60px 0' }}>
+        <div className="container" style={{ maxWidth: '640px' }}>
           {isSuccess ? (
             <div id="custom-request-success" style={{ textAlign: 'center', padding: '40px 20px' }}>
               <CheckCircle width="48" height="48" style={{ color: 'var(--success)', margin: '0 auto' }} />
               <h2 style={{ margin: '12px 0 8px' }}>{t('custom.successTitle')}</h2>
               <p style={{ color: 'var(--text-muted)' }}>{t('custom.successMsg')}</p>
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 style={{ marginTop: '20px', display: 'inline-block' }}
                 onClick={() => {
                   setIsSuccess(false);
@@ -140,14 +140,14 @@ export function CustomRequestPage() {
           ) : (
             <form onSubmit={handleSubmit}>
               {/* 1. Category */}
-              <div class="form-group">
-                <label class="form-label">{t('custom.startingPoint')}</label>
+              <div className="form-group">
+                <label className="form-label">{t('custom.startingPoint')}</label>
                 <ul
-                  class="category-filter-list"
+                  className="category-filter-list"
                   style={{ border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '8px' }}
                 >
                   <li
-                    class={`category-filter-item ${selectedCategory === '' ? 'active' : ''}`}
+                    className={`category-filter-item ${selectedCategory === '' ? 'active' : ''}`}
                     onClick={() => setSelectedCategory('')}
                   >
                     <span>{t('custom.noCategory')}</span>
@@ -155,7 +155,7 @@ export function CustomRequestPage() {
                   {categories.map(cat => (
                     <li
                       key={cat.id}
-                      class={`category-filter-item ${selectedCategory === cat.name ? 'active' : ''}`}
+                      className={`category-filter-item ${selectedCategory === cat.name ? 'active' : ''}`}
                       onClick={() => setSelectedCategory(cat.name)}
                     >
                       <span>{tr(cat.name)}</span>
@@ -165,11 +165,11 @@ export function CustomRequestPage() {
               </div>
 
               {/* 2. Description */}
-              <div class="form-group">
-                <label class="form-label" for="custom-description">{t('custom.descLabel')}</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="custom-description">{t('custom.descLabel')}</label>
                 <textarea
                   id="custom-description"
-                  class="form-textarea"
+                  className="form-textarea"
                   placeholder={t('custom.descPlaceholder')}
                   value={description}
                   onChange={(e) => {
@@ -186,12 +186,12 @@ export function CustomRequestPage() {
               </div>
 
               {/* 2b. Size */}
-              <div class="form-group">
-                <label class="form-label" for="custom-dimensions">{t('custom.sizeLabel')}</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="custom-dimensions">{t('custom.sizeLabel')}</label>
                 <input
                   type="text"
                   id="custom-dimensions"
-                  class="input-text"
+                  className="input-text"
                   placeholder={t('custom.sizePlaceholder')}
                   value={dimensions}
                   onChange={(e) => setDimensions(e.target.value)}
@@ -199,14 +199,14 @@ export function CustomRequestPage() {
               </div>
 
               {/* 3. Materials */}
-              <div class="form-group">
-                <label class="form-label">{t('custom.materialsLabel')}</label>
-                <div class="option-swatch-group" style={{ marginBottom: 0 }}>
+              <div className="form-group">
+                <label className="form-label">{t('custom.materialsLabel')}</label>
+                <div className="option-swatch-group" style={{ marginBottom: 0 }}>
                   {materialsList.map(mat => (
                     <button
                       key={mat}
                       type="button"
-                      class={`option-value-btn ${selectedMaterials.includes(mat) ? 'selected' : ''}`}
+                      className={`option-value-btn ${selectedMaterials.includes(mat) ? 'selected' : ''}`}
                       onClick={() => toggleMaterial(mat)}
                     >
                       {tr(mat)}
@@ -216,20 +216,20 @@ export function CustomRequestPage() {
               </div>
 
               {/* 4. Reference upload */}
-              <div class="form-group">
-                <label class="form-label">{t('custom.refLabel')}</label>
+              <div className="form-group">
+                <label className="form-label">{t('custom.refLabel')}</label>
                 <div
-                  class="image-upload-zone"
+                  className="image-upload-zone"
                   onClick={() => document.getElementById('custom-file-input').click()}
                   style={{ cursor: 'pointer' }}
                 >
-                  <div class="upload-icon"><Camera width="32" height="32" /></div>
-                  <p class="upload-text">{t('custom.refUploadText')}</p>
-                  <p class="upload-hint">{t('custom.refUploadHint')}</p>
+                  <div className="upload-icon"><Camera width="32" height="32" /></div>
+                  <p className="upload-text">{t('custom.refUploadText')}</p>
+                  <p className="upload-hint">{t('custom.refUploadHint')}</p>
                   <input
                     type="file"
                     id="custom-file-input"
-                    class="hidden-file-input"
+                    className="hidden-file-input"
                     accept="image/*"
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
@@ -253,13 +253,13 @@ export function CustomRequestPage() {
               </div>
 
               {/* 5. Contact info */}
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="custom-name">{t('custom.nameLabel')}</label>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="custom-name">{t('custom.nameLabel')}</label>
                   <input
                     type="text"
                     id="custom-name"
-                    class="input-text"
+                    className="input-text"
                     placeholder={t('custom.namePlaceholder')}
                     value={name}
                     onChange={(e) => {
@@ -275,12 +275,12 @@ export function CustomRequestPage() {
                   )}
                 </div>
 
-                <div class="form-group">
-                  <label class="form-label" for="custom-phone">{t('custom.phoneLabel')}</label>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="custom-phone">{t('custom.phoneLabel')}</label>
                   <input
                     type="tel"
                     id="custom-phone"
-                    class="input-text"
+                    className="input-text"
                     placeholder={t('custom.phonePlaceholder')}
                     value={phone}
                     onChange={(e) => {
@@ -297,13 +297,13 @@ export function CustomRequestPage() {
                 </div>
               </div>
 
-              <div class="order-actions-grid" style={{ marginTop: '16px' }}>
-                <button type="submit" class="btn btn-accent" style={{ width: '100%' }}>
+              <div className="order-actions-grid" style={{ marginTop: '16px' }}>
+                <button type="submit" className="btn btn-accent" style={{ width: '100%' }}>
                   {t('custom.submitBtn')}
                 </button>
                 <button
                   type="button"
-                  class="btn-whatsapp"
+                  className="btn-whatsapp"
                   onClick={handleWhatsAppSubmit}
                   style={{ width: '100%' }}
                 >

@@ -159,26 +159,26 @@ export function AdminDashboardPage() {
 
         {/* Metric Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '32px' }}>
-          <div style={{ background: '#ffffff', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+          <div style={{ background: 'var(--bg-card)', color: 'var(--text-dark)', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('admin.totalProducts')}</span>
-            <h3 style={{ fontSize: '28px', margin: '4px 0 0' }}>{products.length}</h3>
+            <h3 style={{ fontSize: '28px', margin: '4px 0 0', color: 'var(--primary-900)' }}>{products.length}</h3>
           </div>
 
-          <div style={{ background: '#ffffff', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+          <div style={{ background: 'var(--bg-card)', color: 'var(--text-dark)', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('admin.outOfStock')}</span>
-            <h3 style={{ fontSize: '28px', margin: '4px 0 0', color: outOfStockCount > 0 ? 'var(--danger)' : 'inherit' }}>
+            <h3 style={{ fontSize: '28px', margin: '4px 0 0', color: outOfStockCount > 0 ? 'var(--danger)' : 'var(--primary-900)' }}>
               {outOfStockCount}
             </h3>
           </div>
 
-          <div style={{ background: '#ffffff', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+          <div style={{ background: 'var(--bg-card)', color: 'var(--text-dark)', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('admin.orderRequests')}</span>
-            <h3 style={{ fontSize: '28px', margin: '4px 0 0' }}>{orders.length}</h3>
+            <h3 style={{ fontSize: '28px', margin: '4px 0 0', color: 'var(--primary-900)' }}>{orders.length}</h3>
           </div>
 
-          <div style={{ background: '#ffffff', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+          <div style={{ background: 'var(--bg-card)', color: 'var(--text-dark)', padding: '20px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{t('admin.customRequests')}</span>
-            <h3 style={{ fontSize: '28px', margin: '4px 0 0' }}>{customRequests.length}</h3>
+            <h3 style={{ fontSize: '28px', margin: '4px 0 0', color: 'var(--primary-900)' }}>{customRequests.length}</h3>
           </div>
         </div>
 
@@ -230,7 +230,7 @@ export function AdminDashboardPage() {
         </div>
 
         {/* Tab Content */}
-        <div style={{ background: '#ffffff', padding: '24px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+        <div style={{ background: 'var(--bg-card)', color: 'var(--text-dark)', padding: '24px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
           {/* TAB 1: PRODUCTS CRUD TABLE */}
           {activeTab === 'products' && (
             <div>
@@ -489,12 +489,14 @@ export function AdminDashboardPage() {
           overflowY: 'auto'
         }}>
           <div style={{
-            background: '#ffffff',
+            background: 'var(--bg-card)',
+            color: 'var(--text-dark)',
             maxWidth: '560px',
             width: '100%',
             borderRadius: 'var(--radius-lg)',
             padding: '30px',
             boxShadow: 'var(--shadow-lg)',
+            border: '1px solid var(--border-color)',
             margin: 'auto'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>

@@ -171,18 +171,18 @@ export function ProductDrawerModal() {
   };
 
   return (
-    <div class="product-drawer active" id="product-detail-modal">
-      <div class="drawer-panel">
+    <div className="product-drawer active" id="product-detail-modal">
+      <div className="drawer-panel">
 
         {/* Sticky close bar */}
-        <button class="drawer-close-btn" onClick={closeProductModal} aria-label="Close">
-          <span class="drawer-close-label">{t('detail.close')}</span>
+        <button className="drawer-close-btn" onClick={closeProductModal} aria-label="Close">
+          <span className="drawer-close-label">{t('detail.close')}</span>
           <X width="18" height="18" />
         </button>
 
         {/* Stacked Image Gallery */}
-        <div class="drawer-gallery">
-          <div class="drawer-gallery-item drawer-gallery-item-main">
+        <div className="drawer-gallery">
+          <div className="drawer-gallery-item drawer-gallery-item-main">
             <img
               src={mainImg}
               alt={productName}
@@ -193,28 +193,28 @@ export function ProductDrawerModal() {
         </div>
 
         {/* Content */}
-        <div class="drawer-content">
-          <nav class="drawer-breadcrumb" style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+        <div className="drawer-content">
+          <nav className="drawer-breadcrumb" style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
             <a href="#catalog">{t('nav.catalog')}</a>
-            <span class="breadcrumb-separator">›</span>
+            <span className="breadcrumb-separator">›</span>
             <span>{categoryName}</span>
-            <span class="breadcrumb-separator">›</span>
+            <span className="breadcrumb-separator">›</span>
             <strong style={{ color: 'var(--primary-900)' }}>{productName}</strong>
           </nav>
 
-          <span class="detail-category">{categoryName}</span>
-          <h2 class="detail-title">{productName}</h2>
+          <span className="detail-category">{categoryName}</span>
+          <h2 className="detail-title">{productName}</h2>
 
-          <div class="detail-price-box">
-            <span class="detail-price">{formatPriceDisplay()}</span>
-            <span class="detail-price-type">({selectedProduct.price_type})</span>
+          <div className="detail-price-box">
+            <span className="detail-price">{formatPriceDisplay()}</span>
+            <span className="detail-price-type">({selectedProduct.price_type})</span>
           </div>
 
-          <div class="detail-status">
+          <div className="detail-status">
             {selectedProduct.is_available ? (
-              <span class="badge badge-success">{tr('Currently Available')}</span>
+              <span className="badge badge-success">{tr('Currently Available')}</span>
             ) : (
-              <span class="badge badge-danger">{tr('Made to Order / Out of Stock')}</span>
+              <span className="badge badge-danger">{tr('Made to Order / Out of Stock')}</span>
             )}
           </div>
 
@@ -230,12 +230,12 @@ export function ProductDrawerModal() {
                   const currentVal = selectedOptionsState[group.id]?.value || min;
 
                   return (
-                    <div key={group.id} class="option-swatch-group">
-                      <span class="option-group-title">{tr(group.name)}</span>
-                      <div class="numeric-stepper">
+                    <div key={group.id} className="option-swatch-group">
+                      <span className="option-group-title">{tr(group.name)}</span>
+                      <div className="numeric-stepper">
                         <button
                           type="button"
-                          class="stepper-btn"
+                          className="stepper-btn"
                           onClick={() => {
                             const next = Math.max(min, currentVal - step);
                             setSelectedOptionsState(prev => ({
@@ -249,10 +249,10 @@ export function ProductDrawerModal() {
                             }));
                           }}
                         >–</button>
-                        <span class="stepper-value">{currentVal}{group.unit_label ? ' ' + tr(group.unit_label) : ''}</span>
+                        <span className="stepper-value">{currentVal}{group.unit_label ? ' ' + tr(group.unit_label) : ''}</span>
                         <button
                           type="button"
-                          class="stepper-btn"
+                          className="stepper-btn"
                           onClick={() => {
                             const next = Math.min(max, currentVal + step);
                             setSelectedOptionsState(prev => ({
@@ -272,8 +272,8 @@ export function ProductDrawerModal() {
                 }
 
                 return (
-                  <div key={group.id} class="option-swatch-group">
-                    <span class="option-group-title">{tr(group.name)}</span>
+                  <div key={group.id} className="option-swatch-group">
+                    <span className="option-group-title">{tr(group.name)}</span>
                     <div>
                       {vals.map(val => {
                         const isSelected = selectedOptionsState[group.id]?.value === val.id;
@@ -281,7 +281,7 @@ export function ProductDrawerModal() {
                           <button
                             key={val.id}
                             type="button"
-                            class={`option-value-btn ${isSelected ? 'selected' : ''}`}
+                            className={`option-value-btn ${isSelected ? 'selected' : ''}`}
                             onClick={() => {
                               setSelectedOptionsState(prev => ({
                                 ...prev,
@@ -305,17 +305,17 @@ export function ProductDrawerModal() {
             </div>
           )}
 
-          <h3 class="detail-desc-title" style={{ marginTop: '16px' }}>{t('detail.description')}</h3>
-          <p class="detail-desc">{desc}</p>
+          <h3 className="detail-desc-title" style={{ marginTop: '16px' }}>{t('detail.description')}</h3>
+          <p className="detail-desc">{desc}</p>
 
           {/* Order Request Form */}
-          <div class="order-request-form">
-            <div class="form-group">
-              <label class="form-label" for="order-quantity">{t('detail.quantity')}</label>
+          <div className="order-request-form">
+            <div className="form-group">
+              <label className="form-label" htmlFor="order-quantity">{t('detail.quantity')}</label>
               <input
                 type="number"
                 id="order-quantity"
-                class="input-text"
+                className="input-text"
                 value={quantity}
                 min="1"
                 onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
@@ -326,12 +326,12 @@ export function ProductDrawerModal() {
             {!isSuccessSubmitted ? (
               <>
                 <div id="order-form-fields">
-                  <div class="form-group">
-                    <label class="form-label" for="order-customer-name">{t('detail.yourName')}</label>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="order-customer-name">{t('detail.yourName')}</label>
                     <input
                       type="text"
                       id="order-customer-name"
-                      class="input-text"
+                      className="input-text"
                       placeholder={t('detail.namePlaceholder')}
                       value={customerName}
                       onChange={(e) => {
@@ -347,12 +347,12 @@ export function ProductDrawerModal() {
                     )}
                   </div>
 
-                  <div class="form-group">
-                    <label class="form-label" for="order-customer-phone">{t('detail.phone')}</label>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="order-customer-phone">{t('detail.phone')}</label>
                     <input
                       type="tel"
                       id="order-customer-phone"
-                      class="input-text"
+                      className="input-text"
                       placeholder={t('detail.phonePlaceholder')}
                       value={phone}
                       onChange={(e) => {
@@ -368,11 +368,11 @@ export function ProductDrawerModal() {
                     )}
                   </div>
 
-                  <div class="form-group">
-                    <label class="form-label" for="order-customer-notes">{t('detail.notes')}</label>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="order-customer-notes">{t('detail.notes')}</label>
                     <textarea
                       id="order-customer-notes"
-                      class="form-textarea"
+                      className="form-textarea"
                       placeholder={t('detail.notesPlaceholder')}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
@@ -384,22 +384,22 @@ export function ProductDrawerModal() {
                   {t('detail.disclaimer')}
                 </p>
 
-                <div class="order-actions-grid">
-                  <div class="action-btn-wrapper">
+                <div className="order-actions-grid">
+                  <div className="action-btn-wrapper">
                     <button
                       type="button"
-                      class="btn btn-primary btn-order-primary"
+                      className="btn btn-primary btn-order-primary"
                       onClick={handleWebOrderSubmit}
                     >
                       {t('detail.requestBtn')}
                     </button>
-                    <span class="btn-action-hint">{t('detail.requestHint')}</span>
+                    <span className="btn-action-hint">{t('detail.requestHint')}</span>
                   </div>
 
-                  <div class="action-btn-wrapper">
+                  <div className="action-btn-wrapper">
                     <button
                       type="button"
-                      class="btn-whatsapp btn-order-whatsapp"
+                      className="btn-whatsapp btn-order-whatsapp"
                       onClick={handleWhatsAppOrder}
                     >
                       <svg viewBox="0 0 24 24" width="20" height="20" style={{ fill: 'currentColor' }}>
@@ -407,20 +407,18 @@ export function ProductDrawerModal() {
                       </svg>
                       <span>{t('detail.whatsappBtn')}</span>
                     </button>
-                    <span class="btn-action-hint">{t('detail.whatsappHint')}</span>
+                    <span className="btn-action-hint">{t('detail.whatsappHint')}</span>
                   </div>
                 </div>
               </>
             ) : (
               <div
                 id="order-success-msg"
+                className="feedback-message feedback-success"
                 style={{
                   display: 'block',
                   marginTop: '16px',
                   padding: '18px',
-                  background: '#d1fae5',
-                  color: '#065f46',
-                  border: '1px solid #a7f3d0',
                   borderRadius: 'var(--radius-md)',
                   fontSize: '15px',
                   fontWeight: 600,
