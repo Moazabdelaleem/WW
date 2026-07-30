@@ -377,6 +377,8 @@ export const dynamicTranslations = {
     'Out of Stock': 'غير متاح حالياً',
     'Currently Available': 'جاهز ع المعاينة والتحميل',
     'Made to Order / Out of Stock': 'شغل عمولة / غير متاح',
-    'View Details →': 'شوف التفاصيل ←'
+    'View Details →': 'شوف التفاصيل ←',
+    'seats': 'مقعد',
+    'cm': 'سم'
   }
 };

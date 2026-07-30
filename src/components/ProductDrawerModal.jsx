@@ -210,9 +210,9 @@ export function ProductDrawerModal() {
 
           <div class="detail-status">
             {selectedProduct.is_available ? (
-              <span class="badge badge-success">{t('Currently Available')}</span>
+              <span class="badge badge-success">{tr('Currently Available')}</span>
             ) : (
-              <span class="badge badge-danger">{t('Made to Order / Out of Stock')}</span>
+              <span class="badge badge-danger">{tr('Made to Order / Out of Stock')}</span>
             )}
           </div>
 
@@ -247,7 +247,7 @@ export function ProductDrawerModal() {
                             }));
                           }}
                         >–</button>
-                        <span class="stepper-value">{currentVal}{group.unit_label ? ' ' + group.unit_label : ''}</span>
+                        <span class="stepper-value">{currentVal}{group.unit_label ? ' ' + tr(group.unit_label) : ''}</span>
                         <button
                           type="button"
                           class="stepper-btn"
@@ -292,7 +292,7 @@ export function ProductDrawerModal() {
                               }));
                             }}
                           >
-                            {tr(val.name || '') || val.name || val.label || 'Option'}
+                            {tr(val.name || '') || tr(val.label || '') || val.name || 'Option'}
                           </button>
                         );
                       })}

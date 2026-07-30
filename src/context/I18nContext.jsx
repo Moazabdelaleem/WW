@@ -29,8 +29,12 @@ export function I18nProvider({ children }) {
 
   const tr = (str) => {
     if (!str) return '';
-    if (lang === 'ar' && dynamicTranslations.ar[str]) {
-      return dynamicTranslations.ar[str];
+    const s = String(str).trim();
+    if (lang === 'ar') {
+      if (dynamicTranslations.ar[s]) return dynamicTranslations.ar[s];
+      if (dynamicTranslations.ar[str]) return dynamicTranslations.ar[str];
+      if (translations.ar[s]) return translations.ar[s];
+      if (translations.ar[str]) return translations.ar[str];
     }
     return str;
   };
