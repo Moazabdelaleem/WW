@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
-import { Package, FolderTree, ShoppingBag, MessageSquareQuote, LogOut, Plus, Edit2, Trash2, X, Check, Search } from 'lucide-react';
+import { getSupabaseClient } from '../lib/supabaseClient';
+import { autoTranslateText } from '../lib/translator';
+import { Package, FolderTree, ShoppingBag, MessageSquareQuote, LogOut, Plus, Edit2, Trash2, X, Check, Search, Upload } from 'lucide-react';
 
 export function AdminDashboardPage() {
   const { t, tr } = useI18n();
@@ -22,7 +24,8 @@ export function AdminDashboardPage() {
     updateCustomRequestStatus,
     deleteCustomRequest,
     logoutAdmin,
-    setCurrentView
+    setCurrentView,
+    showToast
   } = useCatalog();
 
   const [activeTab, setActiveTab] = useState('products'); // 'products' | 'categories' | 'orders' | 'requests'
@@ -36,6 +39,8 @@ export function AdminDashboardPage() {
   // Product Add/Edit Modal State
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   
   const [prodForm, setProdForm] = useState({
     name: '',
@@ -61,7 +66,7 @@ export function AdminDashboardPage() {
       description: '',
       is_available: true,
       is_featured: false,
-      image_url: './images/p1.png'
+      image_url: ''
     });
     setIsProductModalOpen(true);
   };
@@ -72,37 +77,131 @@ export function AdminDashboardPage() {
     const existingImg = productImages.find(i => i.product_id === prod.id);
 
     setProdForm({
-      name: prod.name || '',
+      name: tr(prod.name) || (typeof prod.name === 'object' ? prod.name.en || prod.name.ar : prod.name) || '',
       category_id: prod.category_id || (categories[0]?.id || ''),
       price: prod.price !== null && prod.price !== undefined ? prod.price : '',
       price_type: prod.price_type || 'fixed',
-      description: prod.description || '',
+      description: tr(prod.description) || (typeof prod.description === 'object' ? prod.description.en || prod.description.ar : prod.description) || '',
       is_available: prod.is_available ?? true,
       is_featured: prod.is_featured ?? false,
-      image_url: existingImg?.url || './images/p1.png'
+      image_url: existingImg?.url || ''
     });
     setIsProductModalOpen(true);
   };
 
-  // Save Product (Create or Update)
-  const handleProductSubmit = (e) => {
+  // Handle File Upload (Drag/Select)
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (PNG, JPG, WebP).', 'error');
+      return;
+    }
+
+    setIsUploading(true);
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const dataUrl = event.target.result;
+      
+      const client = getSupabaseClient();
+      if (client) {
+        try {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+          const filePath = `products/${fileName}`;
+
+          const { error: uploadError } = await client.storage.from('product-images').upload(filePath, file);
+
+          if (!uploadError) {
+            const { data: publicUrlData } = client.storage.from('product-images').getPublicUrl(filePath);
+            if (publicUrlData?.publicUrl) {
+              setProdForm(prev => ({ ...prev, image_url: publicUrlData.publicUrl }));
+              setIsUploading(false);
+              showToast('Image uploaded to Supabase Storage!', 'success');
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('Supabase Storage upload fallback to Data URL:', err);
+        }
+      }
+
+      setProdForm(prev => ({ ...prev, image_url: dataUrl }));
+      setIsUploading(false);
+      showToast('Product photo selected successfully!', 'success');
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  // Save Product with Automatic Background Dual Translation
+  const handleProductSubmit = async (e) => {
     e.preventDefault();
     if (!prodForm.name.trim()) return;
 
+    setIsSaving(true);
+    const finalImgUrl = prodForm.image_url || './images/p1.png';
+
+    // Smart Background Auto Translation
+    const rawName = prodForm.name.trim();
+    const rawDesc = prodForm.description.trim();
+
+    // Detect if entered title contains Arabic letters
+    const isArabicName = /[\u0600-\u06FF]/.test(rawName);
+
+    let nameEn = rawName;
+    let nameAr = rawName;
+    let descEn = rawDesc;
+    let descAr = rawDesc;
+
+    try {
+      if (isArabicName) {
+        nameAr = rawName;
+        nameEn = await autoTranslateText(rawName, 'en');
+        if (rawDesc) {
+          descAr = rawDesc;
+          descEn = await autoTranslateText(rawDesc, 'en');
+        }
+      } else {
+        nameEn = rawName;
+        nameAr = await autoTranslateText(rawName, 'ar');
+        if (rawDesc) {
+          descEn = rawDesc;
+          descAr = await autoTranslateText(rawDesc, 'ar');
+        }
+      }
+    } catch (err) {
+      console.warn('Background translation note:', err);
+    }
+
+    const bilingualName = { en: nameEn, ar: nameAr };
+    const bilingualDesc = { en: descEn, ar: descAr };
+
     if (editingProductId) {
-      updateProduct(editingProductId, {
-        name: prodForm.name,
+      await updateProduct(editingProductId, {
+        name: bilingualName,
         category_id: prodForm.category_id,
         price: prodForm.price ? parseFloat(prodForm.price) : null,
         price_type: prodForm.price_type,
-        description: prodForm.description,
+        description: bilingualDesc,
         is_available: prodForm.is_available,
         is_featured: prodForm.is_featured
-      }, prodForm.image_url);
+      }, finalImgUrl);
     } else {
-      addProduct(prodForm, prodForm.image_url);
+      await addProduct({
+        name: bilingualName,
+        category_id: prodForm.category_id,
+        price: prodForm.price ? parseFloat(prodForm.price) : null,
+        price_type: prodForm.price_type,
+        description: bilingualDesc,
+        is_available: prodForm.is_available,
+        is_featured: prodForm.is_featured
+      }, finalImgUrl);
     }
 
+    setIsSaving(false);
     setIsProductModalOpen(false);
   };
 
@@ -125,7 +224,9 @@ export function AdminDashboardPage() {
   const filteredAdminProducts = products.filter(p => {
     const q = adminSearch.toLowerCase().trim();
     if (!q) return true;
-    return p.name.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q);
+    const nameStr = tr(p.name).toLowerCase();
+    const descStr = tr(p.description || '').toLowerCase();
+    return nameStr.includes(q) || descStr.includes(q);
   });
 
   return (
@@ -298,7 +399,7 @@ export function AdminDashboardPage() {
                               <button
                                 className="btn btn-danger btn-sm"
                                 onClick={() => {
-                                  if (window.confirm(`Are you sure you want to delete "${p.name}"?`)) {
+                                  if (window.confirm(`Are you sure you want to delete "${tr(p.name)}"?`)) {
                                     deleteProduct(p.id);
                                   }
                                 }}
@@ -368,7 +469,7 @@ export function AdminDashboardPage() {
                           <button
                             className="btn btn-danger btn-sm"
                             onClick={() => {
-                              if (window.confirm(`Delete category "${cat.name}"?`)) {
+                              if (window.confirm(`Delete category "${tr(cat.name)}"?`)) {
                                 deleteCategory(cat.id);
                               }
                             }}
@@ -475,7 +576,7 @@ export function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* CREATE / EDIT PRODUCT MODAL */}
+      {/* CREATE / EDIT PRODUCT MODAL (CLEAN & SIMPLE) */}
       {isProductModalOpen && (
         <div style={{
           position: 'fixed',
@@ -484,7 +585,7 @@ export function AdminDashboardPage() {
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
-          justifyCumulative: 'center',
+          justifyContent: 'center',
           padding: '20px',
           overflowY: 'auto'
         }}>
@@ -516,6 +617,7 @@ export function AdminDashboardPage() {
                 <input
                   type="text"
                   className="input-text"
+                  placeholder="e.g. Dining Table or طاولة طعام"
                   value={prodForm.name}
                   onChange={(e) => setProdForm({ ...prodForm, name: e.target.value })}
                   required
@@ -562,15 +664,62 @@ export function AdminDashboardPage() {
                 </div>
               )}
 
+              {/* IMAGE FILE UPLOAD ZONE */}
               <div className="form-group">
-                <label className="form-label">Image URL / Path</label>
-                <input
-                  type="text"
-                  className="input-text"
-                  value={prodForm.image_url}
-                  onChange={(e) => setProdForm({ ...prodForm, image_url: e.target.value })}
-                  placeholder="./images/p1.png or https://..."
-                />
+                <label className="form-label">Product Photo *</label>
+                
+                <div style={{
+                  border: '2px dashed var(--border-color)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '20px',
+                  textAlign: 'center',
+                  background: 'var(--bg-main)',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s ease'
+                }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageFileChange}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      opacity: 0,
+                      cursor: 'pointer',
+                      width: '100%',
+                      height: '100%'
+                    }}
+                  />
+
+                  {prodForm.image_url ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }}>
+                      <img
+                        src={prodForm.image_url}
+                        alt="Preview"
+                        style={{ width: '70px', height: '70px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                      />
+                      <div style={{ textAlign: 'left' }}>
+                        <span style={{ fontSize: '13px', fontWeight: 600, display: 'block', color: 'var(--primary-900)' }}>
+                          Photo Selected
+                        </span>
+                        <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                          Click or drag to replace photo
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <Upload size={28} style={{ color: 'var(--accent-600)', marginBottom: '8px' }} />
+                      <span style={{ fontSize: '14px', fontWeight: 600, display: 'block', color: 'var(--primary-900)' }}>
+                        {isUploading ? 'Processing Image...' : 'Click or Drag & Drop to Upload Product Image'}
+                      </span>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                        Supports PNG, JPG, WebP
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="form-group">
@@ -604,8 +753,8 @@ export function AdminDashboardPage() {
               </div>
 
               <div style={{ display: 'flex', gap: '10px', marginTop: '24px' }}>
-                <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
-                  {editingProductId ? 'Save Product Changes' : 'Create Product'}
+                <button type="submit" className="btn btn-primary" style={{ flex: 1 }} disabled={isUploading || isSaving}>
+                  {isSaving ? 'Saving...' : (editingProductId ? 'Save Product Changes' : 'Create Product')}
                 </button>
                 <button
                   type="button"

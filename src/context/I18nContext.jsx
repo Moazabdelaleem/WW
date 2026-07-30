@@ -27,15 +27,31 @@ export function I18nProvider({ children }) {
     return str;
   };
 
-  const tr = (str) => {
-    if (!str) return '';
-    const s = String(str).trim();
+  const tr = (val) => {
+    if (!val) return '';
+
+    // Handle bilingual objects: { en: "Dining Table", ar: "طاولة طعام" }
+    if (typeof val === 'object' && val !== null) {
+      return val[lang] || val['ar'] || val['en'] || '';
+    }
+
+    const str = String(val).trim();
+
+    // Handle JSON strings representing bilingual objects
+    if (str.startsWith('{') && str.endsWith('}')) {
+      try {
+        const parsed = JSON.parse(str);
+        if (parsed && typeof parsed === 'object') {
+          return parsed[lang] || parsed['ar'] || parsed['en'] || str;
+        }
+      } catch (e) {}
+    }
+
     if (lang === 'ar') {
-      if (dynamicTranslations.ar[s]) return dynamicTranslations.ar[s];
       if (dynamicTranslations.ar[str]) return dynamicTranslations.ar[str];
-      if (translations.ar[s]) return translations.ar[s];
       if (translations.ar[str]) return translations.ar[str];
     }
+
     return str;
   };
 
