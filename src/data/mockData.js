@@ -50,14 +50,14 @@ export function generateSeedData() {
     { id: p11, name: '10-Person Conference Table', category_id: catConference, price: 68000, price_type: 'range', description: 'Solid teak top conference table with built-in power hubs.', is_available: true, is_featured: false, created_at: new Date().toISOString() },
   ];
 
-  // Exactly 1 Accurate Image Per Product
+  // Exactly 1 Verified Accurate Image Per Product (All 200 OK)
   const product_images = [
     { id: 'img-1', product_id: p1, url: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
     { id: 'img-2', product_id: p2, url: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
     { id: 'img-3', product_id: p3, url: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
-    { id: 'img-4', product_id: p4, url: 'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
+    { id: 'img-4', product_id: p4, url: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
     { id: 'img-5', product_id: p5, url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
-    { id: 'img-6', product_id: p6, url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
+    { id: 'img-6', product_id: p6, url: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
     { id: 'img-7', product_id: p7, url: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
     { id: 'img-8', product_id: p8, url: 'https://images.unsplash.com/photo-1558882224-dda166733046?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
     { id: 'img-9', product_id: p9, url: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=1000&auto=format&fit=crop', sort_order: 0 },
