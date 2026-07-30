@@ -10,12 +10,12 @@ export function ProductsGrid() {
   if (filteredProducts.length === 0) {
     if (products.length === 0) {
       return (
-        <div className="empty-state">
-          <div className="empty-state-icon">🛋️</div>
-          <h3 className="empty-state-title">{t('products.noProductsTitle')}</h3>
-          <p className="empty-state-desc">{t('products.noProductsDesc')}</p>
+        <div class="empty-state">
+          <div class="empty-state-icon">🛋️</div>
+          <h3 class="empty-state-title">{t('products.noProductsTitle')}</h3>
+          <p class="empty-state-desc">{t('products.noProductsDesc')}</p>
           <button
-            className="btn btn-accent btn-seed-demo"
+            class="btn btn-accent btn-seed-demo"
             onClick={seedDemoData}
             style={{ marginTop: '16px' }}
           >
@@ -26,12 +26,12 @@ export function ProductsGrid() {
     }
 
     return (
-      <div className="empty-state">
-        <div className="empty-state-icon">🛋️</div>
-        <h3 className="empty-state-title">{t('products.emptyTitle')}</h3>
-        <p className="empty-state-desc">{t('products.emptyDesc')}</p>
+      <div class="empty-state">
+        <div class="empty-state-icon">🛋️</div>
+        <h3 class="empty-state-title">{t('products.emptyTitle')}</h3>
+        <p class="empty-state-desc">{t('products.emptyDesc')}</p>
         <button
-          className="btn btn-secondary"
+          class="btn btn-secondary"
           onClick={resetFilters}
           style={{ marginTop: '16px' }}
         >
@@ -42,7 +42,7 @@ export function ProductsGrid() {
   }
 
   return (
-    <div className="products-grid" id="products-grid">
+    <div class="products-grid" id="products-grid">
       {filteredProducts.map((product, index) => (
         <ProductCard key={product.id} product={product} index={index} />
       ))}

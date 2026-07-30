@@ -16,8 +16,8 @@ export function CatalogBreadcrumb() {
   const activeCatObj = categories.find(c => c.id === activeCategory);
 
   return (
-    <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-      <span className="breadcrumb-item">
+    <nav class="catalog-breadcrumb" aria-label="Breadcrumb">
+      <span class="breadcrumb-item">
         <a 
           href="#catalog" 
           onClick={(e) => { e.preventDefault(); setCurrentView('catalog'); }}
@@ -25,14 +25,14 @@ export function CatalogBreadcrumb() {
           {t('nav.catalog')}
         </a>
       </span>
-      <span className="breadcrumb-separator">›</span>
-      <span className="breadcrumb-item active">
+      <span class="breadcrumb-separator">›</span>
+      <span class="breadcrumb-item active">
         {deptNames[activeDepartment] || t('filter.deptAll')}
       </span>
       {activeCategory !== 'all' && activeCatObj && (
         <>
-          <span className="breadcrumb-separator">›</span>
-          <span className="breadcrumb-item active">
+          <span class="breadcrumb-separator">›</span>
+          <span class="breadcrumb-item active">
             {tr(activeCatObj.name)}
           </span>
         </>

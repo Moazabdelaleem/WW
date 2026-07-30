@@ -47,14 +47,6 @@ export function CatalogProvider({ children }) {
   // Floating Toast Notifications
   const [toasts, setToasts] = useState([]);
 
-  // Enforce Light Mode
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', 'light');
-    try {
-      localStorage.removeItem('APP_THEME');
-    } catch (e) {}
-  }, []);
-
   // Save local dbData changes
   useEffect(() => {
     try {

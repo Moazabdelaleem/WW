@@ -30,10 +30,10 @@ export function AppContent() {
   }, [isAdminLoggedIn, setCurrentView]);
 
   return (
-    <div className="app-wrapper">
+    <div class="app-wrapper">
       <Header />
 
-      <main className="main-content">
+      <main class="main-content">
         {currentView === 'catalog' && <CatalogPage />}
         {currentView === 'custom-request' && <CustomRequestPage />}
         {currentView === 'admin-login' && <AdminLoginPage />}

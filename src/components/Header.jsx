@@ -1,18 +1,18 @@
 import React from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
-import { Globe } from 'lucide-react';
+import { ShieldCheck, Globe } from 'lucide-react';
 
 export function Header() {
   const { t, toggleLang } = useI18n();
   const { currentView, setCurrentView } = useCatalog();
 
   return (
-    <header className="site-header">
-      <div className="container header-container">
+    <header class="site-header">
+      <div class="container header-container">
         <a 
           href="#catalog-section" 
-          className="logo" 
+          class="logo" 
           onClick={(e) => {
             e.preventDefault();
             if (e.detail === 3) {
@@ -30,10 +30,10 @@ export function Header() {
           Artisan<span>Wood</span>
         </a>
         
-        <nav className="nav-links">
+        <nav class="nav-links">
           <button
             id="lang-toggle-btn"
-            className="btn btn-lang-toggle btn-sm"
+            class="btn btn-lang-toggle btn-sm"
             onClick={toggleLang}
             aria-label="Switch language"
           >
@@ -43,11 +43,12 @@ export function Header() {
 
           <span
             id="local-mode-badge"
-            className="badge badge-neutral"
             style={{
               fontSize: '12px',
               fontWeight: 600,
-              padding: '4px 10px',
+              background: '#eef2ff',
+              color: '#3730a3',
+              padding: '3px 9px',
               borderRadius: '999px'
             }}
             title="Data is stored only in this browser — not shared with other visitors"
@@ -56,7 +57,7 @@ export function Header() {
           </span>
 
           <button
-            className={`nav-link ${currentView === 'catalog' ? 'active' : ''}`}
+            class={`nav-link ${currentView === 'catalog' ? 'active' : ''}`}
             onClick={() => setCurrentView('catalog')}
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
@@ -64,7 +65,7 @@ export function Header() {
           </button>
 
           <button
-            className={`nav-link ${currentView === 'custom-request' ? 'active' : ''}`}
+            class={`nav-link ${currentView === 'custom-request' ? 'active' : ''}`}
             onClick={() => setCurrentView('custom-request')}
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >

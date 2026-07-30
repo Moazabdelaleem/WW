@@ -8,8 +8,6 @@ export const translations = {
     'nav.adminPortal': 'Admin Portal',
     'nav.localBadge': 'Local Demo Mode',
     'nav.langToggle': 'عربي',
-    'nav.themeLight': 'Light Mode',
-    'nav.themeDark': 'Dark Mode',
 
     // Index hero
     'hero.tag': 'ArtisanWood Workshop & Catalog',
@@ -160,8 +158,6 @@ export const translations = {
     'nav.adminPortal': 'لوحة الإدارة',
     'nav.localBadge': 'وضع العرض التجريبي',
     'nav.langToggle': 'English',
-    'nav.themeLight': 'الوضع الفاتح',
-    'nav.themeDark': 'الوضع الداكن',
 
     // Index hero
     'hero.tag': 'معرض وورشة أرابيسك / ArtisanWood',
