@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { generateSeedData } from '../data/mockData';
-import { getSupabaseClient, getSupabaseCredentials, saveSupabaseConfig, clearSupabaseConfig } from '../lib/supabaseClient';
+import { getSupabaseClient, getSupabaseCredentials } from '../lib/supabaseClient';
 
 const CatalogContext = createContext();
 const DB_KEY = 'LOCAL_DB_V8';
@@ -46,6 +46,30 @@ export function CatalogProvider({ children }) {
 
   // Floating Toast Notifications
   const [toasts, setToasts] = useState([]);
+
+  // Theme Management (Light / Dark)
+  const THEME_KEY = 'APP_THEME';
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'dark' || saved === 'light') return saved;
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    } catch (e) {}
+    return 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {}
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   // Save local dbData changes
   useEffect(() => {
@@ -597,13 +621,13 @@ export function CatalogProvider({ children }) {
       setCurrentView,
       toasts,
       showToast,
+      theme,
+      toggleTheme,
       seedDemoData,
       seedSupabaseDatabase,
       loadFromSupabase,
       isSupabaseConnected,
       isSyncing,
-      saveSupabaseConfig,
-      clearSupabaseConfig,
       getSupabaseCredentials,
       submitOrder,
       submitCustomRequest,

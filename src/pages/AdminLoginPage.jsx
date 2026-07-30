@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
-import { SupabaseConfigCard } from '../components/SupabaseConfigCard';
 
 export function AdminLoginPage() {
   const { t } = useI18n();
@@ -16,69 +15,64 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="admin-login-layout" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-      <div style={{ maxWidth: '460px', width: '100%' }}>
-        <div className="login-card" style={{ width: '100%', background: '#ffffff', padding: '32px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-md)', marginBottom: '24px' }}>
-          <div className="login-header" style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <a href="#catalog" className="logo" onClick={(e) => { e.preventDefault(); setCurrentView('catalog'); }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              Artisan<span>Wood</span>
-            </a>
-            <p className="login-subtitle" style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '6px' }}>
-              {t('login.subtitle')}
-            </p>
-          </div>
-
-          <div style={{ fontSize: '13px', background: '#eef2ff', color: '#3730a3', padding: '10px 12px', borderRadius: '6px', marginBottom: '20px', textAlign: 'center' }}>
-            <span>{t('login.localHint')} </span>
-            <strong>admin@local.test</strong> / <strong>admin123</strong>.
-          </div>
-
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label className="form-label" htmlFor="login-email">{t('login.emailLabel')}</label>
-              <input
-                type="email"
-                id="login-email"
-                className="input-text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="login-password">{t('login.passLabel')}</label>
-              <input
-                type="password"
-                id="login-password"
-                className="input-text"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '14px' }}>
-              {t('login.signInBtn')}
-            </button>
-          </form>
-
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => setCurrentView('catalog')}
-            >
-              {t('custom.backToCatalog')}
-            </button>
-          </div>
+    <div className="admin-login-layout" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="login-card" style={{ maxWidth: '420px', width: '100%', background: '#ffffff', padding: '32px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-md)' }}>
+        <div className="login-header" style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <a href="#catalog" className="logo" onClick={(e) => { e.preventDefault(); setCurrentView('catalog'); }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Artisan<span>Wood</span>
+          </a>
+          <p className="login-subtitle" style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '6px' }}>
+            {t('login.subtitle')}
+          </p>
         </div>
 
-        {/* Supabase Database Connection Config Card */}
-        <SupabaseConfigCard />
+        <div style={{ fontSize: '13px', background: '#eef2ff', color: '#3730a3', padding: '10px 12px', borderRadius: '6px', marginBottom: '20px', textAlign: 'center' }}>
+          <span>{t('login.localHint')} </span>
+          <strong>admin@local.test</strong> / <strong>admin123</strong>.
+        </div>
+
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="login-email">{t('login.emailLabel')}</label>
+            <input
+              type="email"
+              id="login-email"
+              className="input-text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="login-password">{t('login.passLabel')}</label>
+            <input
+              type="password"
+              id="login-password"
+              className="input-text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '14px' }}>
+            {t('login.signInBtn')}
+          </button>
+        </form>
+
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm"
+            onClick={() => setCurrentView('catalog')}
+          >
+            {t('custom.backToCatalog')}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -49,6 +49,40 @@
   --header-height: 80px;
 }
 
+/* --- Dark Mode Theme Overrides --- */
+[data-theme="dark"] {
+  --primary-900: #f8fafc;
+  --primary-800: #f1f5f9;
+  --primary-700: #cbd5e1;
+  --primary-200: #334155;
+  --primary-100: #1e293b;
+
+  --accent-700: #dfbe7b;
+  --accent-600: #e8cd8f;
+  --accent-500: #c9a96e;
+  --accent-400: #b5935a;
+  --accent-100: #2d261a;
+
+  --bg-main: #0b1120;
+  --bg-card: #151e32;
+  --text-dark: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-light: #0f172a;
+
+  --border-color: #23314d;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-premium: 0 20px 40px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* Global Theme Transition */
+body, .product-card, .site-header, .site-footer, .drawer-content, .login-card, input, select, textarea {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
 /* --- Base Reset & Typography --- */
 * {
   box-sizing: border-box;

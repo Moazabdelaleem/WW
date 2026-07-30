@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useI18n } from '../context/I18nContext';
 import { useCatalog } from '../context/CatalogContext';
-import { SupabaseConfigCard } from '../components/SupabaseConfigCard';
 import { Package, FolderTree, ShoppingBag, MessageSquareQuote, LogOut, Plus, Edit2, Trash2, X, Check, Search } from 'lucide-react';
 
 export function AdminDashboardPage() {
@@ -157,9 +156,6 @@ export function AdminDashboardPage() {
             </button>
           </div>
         </div>
-
-        {/* Supabase Connection & Credentials Settings */}
-        <SupabaseConfigCard />
 
         {/* Metric Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '32px' }}>
