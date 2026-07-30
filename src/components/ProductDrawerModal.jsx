@@ -4,7 +4,7 @@ import { useCatalog } from '../context/CatalogContext';
 import { X, Send, CheckCircle } from 'lucide-react';
 
 export function ProductDrawerModal() {
-  const { t, tr } = useI18n();
+  const { t, tr, isAr } = useI18n();
   const {
     selectedProduct,
     closeProductModal,
@@ -76,23 +76,27 @@ export function ProductDrawerModal() {
   const desc = tr(selectedProduct.description || '');
 
   const imgs = productImages.filter(img => img.product_id === selectedProduct.id);
-  const fallbackImg = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop';
-  const galleryImages = imgs.length > 0 ? imgs.map(i => i.url) : [fallbackImg];
+  const fallbackImg = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop';
+  const mainImg = imgs[0]?.url || fallbackImg;
 
   const productOgList = optionGroups.filter(og => og.product_id === selectedProduct.id);
 
-  // Calculate live total price
+  // Calculate live total price in EGP
   const calculateTotal = () => {
     const base = parseFloat(selectedProduct.price) || 0;
     const optsExtra = Object.values(selectedOptionsState).reduce((sum, opt) => sum + (opt.priceModifier || 0), 0);
     return (base + optsExtra) * Math.max(1, quantity);
   };
 
-  const formattedTotalPrice = `$${calculateTotal().toLocaleString()}`;
+  const currencyStr = isAr ? 'ج.م' : 'L.E.';
+  const amountFormatted = calculateTotal().toLocaleString('en-US');
+  const formattedTotalPrice = `${amountFormatted} ${currencyStr}`;
 
   const formatPriceDisplay = () => {
-    if (selectedProduct.price_type === 'on_request') return t('common.onRequest');
-    if (selectedProduct.price_type === 'range') return t('common.fromPrice', { p: formattedTotalPrice });
+    if (selectedProduct.price_type === 'on_request') return tr('Price on Request');
+    if (selectedProduct.price_type === 'range') {
+      return isAr ? `يبدأ من ${formattedTotalPrice}` : `From ${formattedTotalPrice}`;
+    }
     return formattedTotalPrice;
   };
 
@@ -178,16 +182,14 @@ export function ProductDrawerModal() {
 
         {/* Stacked Image Gallery */}
         <div class="drawer-gallery">
-          {galleryImages.map((url, idx) => (
-            <div key={idx} class={`drawer-gallery-item ${idx === 0 ? 'drawer-gallery-item-main' : ''}`}>
-              <img
-                src={url}
-                alt={`${productName} view ${idx + 1}`}
-                loading={idx === 0 ? 'eager' : 'lazy'}
-                onError={(e) => { e.target.src = fallbackImg; }}
-              />
-            </div>
-          ))}
+          <div class="drawer-gallery-item drawer-gallery-item-main">
+            <img
+              src={mainImg}
+              alt={productName}
+              loading="eager"
+              onError={(e) => { e.target.src = fallbackImg; }}
+            />
+          </div>
         </div>
 
         {/* Content */}
