@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import { generateSeedData } from '../data/mockData';
 
 const CatalogContext = createContext();
-const DB_KEY = 'LOCAL_DB_V6';
+const DB_KEY = 'LOCAL_DB_V7';
 const AUTH_KEY = 'LOCAL_ADMIN_AUTH';
 
 export function CatalogProvider({ children }) {
